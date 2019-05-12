@@ -1,6 +1,6 @@
 <?php
 
-class organisateur extends CI_Model {
+class benevole extends CI_Model {
 
     protected $table = 'benevole';
 
@@ -25,6 +25,17 @@ class organisateur extends CI_Model {
         return $this->db->select('*')
                         ->from('benevole')
                         ->where('idBen', $id)
+                        ->get()
+                        ->result();
+    }
+    
+    public function selectByMail($mail) {
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('benevole')
+                        ->where('mailBen', $mail)
                         ->get()
                         ->result();
     }

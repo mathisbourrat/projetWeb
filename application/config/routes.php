@@ -52,3 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'AccueilCtrl/accueil';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//$route['cookie'] = 'CookieCtrl';
+//$route['cookie/display']='CookieCtrl/display_cookie';
+//$route['cookie/display']='CookieCtrl/deleteCookie';

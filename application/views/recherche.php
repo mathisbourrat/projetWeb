@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Futurs Evénements!</h2>
+    <h2>Votre Recherche</h2>
     <div class="row">
         <div class="table-responsive">
             <table class="table table-striped">
@@ -13,11 +13,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <?php foreach ($event as $item) { ?>
-                            <td><?php echo $item->nomEvent; ?></td>
-                            <td><?php echo $item->dateDebut; ?></td>
-                            <td><?php echo $item->lieu; ?></td>
-                            <td><p><a href="<?php echo base_url("index.php/BenevoleCtrl/Participer/" . $item->idEvent); ?>">Participer</a></p></td>
+                        <?php foreach ($events as $event) { ?>
+                            <td><?php echo $event->nomEvent; ?></td>
+                            <td><?php echo $event->dateDebut; ?></td>
+                            <td><?php echo $event->lieu; ?></td>
+                            <td><p><a href="<?php echo base_url("AccueilCtrl/afficher_event/" . $event->idEvent); ?>">Plus</a></p></td>
                         </tr>
                     <?php } ?>
                 </tbody>

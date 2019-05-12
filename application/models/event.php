@@ -10,6 +10,18 @@ class event extends CI_Model {
 
     public function selectAll() {
 
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->get()
+                        ->result();
+    }
+    
+    public function selectAllByDate() {
+
+
         $this->load->database();
 
         return $this->db->select('*')
@@ -29,6 +41,30 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
+    
+    public function selectByName($name){
+        
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->where('nomEvent', $name)
+                        ->get()
+                        ->result();
+    }
+    
+    public function selectByIdOrga($idOrganisateur) {
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->where('idOrga', $idOrganisateur)
+                        ->get()
+                        ->result();
+    }
+    
+    
 
     public function insert($data) {
 
@@ -39,6 +75,7 @@ class event extends CI_Model {
                 ->set('lieu', $data['lieu'])
                 ->set('idType', $data['idType'])
                 ->set('description', $data['description'])
+                ->set('imageEvent', $data['imageEvent'])
                 ->insert($this->table);
     }
     

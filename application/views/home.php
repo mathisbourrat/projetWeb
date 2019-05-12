@@ -1,10 +1,10 @@
 
 <div id="container">
-    
-	<h1 style="margin-left:10px">Bonjour et bienvenue sur Ma bite</h1>
+    <div class="col-">
+	<h1 style="margin-left:10px">Bonjour et bienvenue sur Mon site</h1>
+        </div>
         <br>
-        <br>
-        <h4>Ce site a pour but de regrouper tout un tas d'évenements, dans tous 
+        <h4>Ce site a pour but a de regrouper tout un tas d'évenements, dans tous 
         les domaines que l'on peut imaginer.<br>
         Vous pourrez trouvez tous vos évenements, soit pour y participer en tant
         que public, soit en tant que bénevoles</h4>

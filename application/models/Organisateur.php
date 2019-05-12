@@ -28,6 +28,17 @@ class organisateur extends CI_Model {
                         ->get()
                         ->result();
     }
+    
+    public function selectByMail($mail) {
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('organisateur')
+                        ->where('mailOrga', $mail)
+                        ->get()
+                        ->result();
+    }
 
     public function insert($data) {
 
