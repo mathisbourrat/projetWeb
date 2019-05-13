@@ -57,10 +57,11 @@ class AccueilCtrl extends CI_Controller {
         $data['title'] = 'Prochains événements';
         $this->load->view('template/header', $data);
         $this->load->view('template/navbar');
-        $this->load->view('template/footer');
-        $this->load->model('event');
+        
         $data['event'] = $this->event->selectAllByDate();
         $this->load->view('liste_event', $data);
+        $this->load->view('template/footer');
+        $this->load->model('event');
     }
 
     public function search_event() {

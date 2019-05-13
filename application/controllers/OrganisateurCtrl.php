@@ -76,8 +76,10 @@ class OrganisateurCtrl extends CI_Controller {
     }
 
     public function deconnexion() {
+        $this->load->helper('cookie');
         $this->session->unset_userdata('username');
-        setcookie('idOrga', "", time() - 3600);
+        delete_cookie('idOrga');
+        //setcookie('idOrga', "", time() - 3600);
         setcookie('mdpOrga', "", time() - 3600);
         $data['title'] = "accueil";
         var_dump($_COOKIE['idOrga']);
@@ -123,12 +125,12 @@ class OrganisateurCtrl extends CI_Controller {
                 $data['message'] = "erreur : Vous ne pouvez pas changer votre adresse email";
                 $this->load->view('errors/erreur_formulaire', $data);
                 $this->index();
-            } else if ($_POST['mdpOrga'] == $_POST['mdpOrga2']) {
+            } else
+                {
                 $data = array(
                     "nomOrga" => htmlspecialchars($_POST['nomOrga']),
                     "prenomOrga" => htmlspecialchars($_POST['prenomOrga']),
                     "mailOrga" => htmlspecialchars($_POST['mailOrga']),
-                    "mdpOrga" => htmlspecialchars(crypt($_POST['mdpOrga'], 'md5')),
                     "adresseOrga" => htmlspecialchars($_POST['adresseOrga']),
                     "codePOrga" => htmlspecialchars($_POST['codePOrga']),
                     "villeOrga" => htmlspecialchars($_POST['villeOrga']),
@@ -144,15 +146,7 @@ class OrganisateurCtrl extends CI_Controller {
                 $this->load->view('organisateur/navbarO');
                 $this->load->view('organisateur/accueil');
                 $this->load->view('template/footer');
-            } else {
-                $data['message'] = "erreur : Votre mot de passe n'est pas correct, si vous souhaitez modifier votre mot de passe cliquez sur le bouton en bas de page";
-                $this->load->view('errors/erreur_formulaire', $data);
-                $data['title'] = "votre profil";
-                $this->load->view('template/header', $data);
-                $this->load->view('organisateur/navbarO');
-                $this->load->view('organisateur/profil');
-                $this->load->view('template/footer');
-            }
+                }  
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
             $this->load->view('errors/erreur_formulaire', $data);
@@ -167,7 +161,7 @@ class OrganisateurCtrl extends CI_Controller {
             $data['title'] = 'Mes événements';
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
-            $this->load->view('liste_event', $data);
+            $this->load->view('organisateur/mes_events', $data);
             $this->load->view('template/footer');
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
@@ -180,43 +174,96 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-    public function create_event() {
+    public function creation() {
         if (isset($_COOKIE['idOrga'])) {
-            /* $config = array(
-              'upload_path' => "./assets/image/Event",
-              'allowed_types' => "gif|jpg|png|jpeg|pdf",
-              'overwrite' => FALSE,
-              'max_size' => "8192000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-              'max_height' => "1536",
-              'max_width' => "2048",
-              'encrypt_name' => TRUE
-              );
-              $this->load->library('upload', $config);
-
-              if (!($this->upload->do_upload('imageEvent'))) {
-
-              log_message('error', $this->upload->display_errors());
-              $data['message'] = "erreur : la photo n'a pas pu s'importer";
-              $this->load->view('errors/erreur_formulaire', $data);
-              $this->index();
-              } else {
-              $file_data = $this->upload->data(); */
-            $data = array(
-                "nomEvent" => htmlspecialchars($_POST['nomEvent']),
-                "dateDebut" => htmlspecialchars($_POST['dateDebut']),
-                "dateFin" => htmlspecialchars($_POST['dateFin']),
-                "lieu" => htmlspecialchars($_POST['lieu']),
-                "description" => htmlspecialchars($_POST['description']),
-                "idGenre" => htmlspecialchars($_POST['idGenre']),
-            );
-            $this->event->insert($data);
+            $data['title'] = "créer son événement";
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/creation_event');
+            $this->load->view('template/footer');
         } else {
-            $data['title'] = "Connexion";
+            $data['title'] = "connexion";
             $this->load->view('template/header', $data);
             $this->load->view('template/navbar');
             $this->load->view('organisateur/connexion');
             $this->load->view('template/footer');
         }
     }
+
+    public function create_event() {
+
+        $this->load->library('form_validation');
+        if (isset($_COOKIE['idOrga'])) {
+            $config = array(
+                'upload_path' => "./assets/image/Event",
+                'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                'overwrite' => FALSE,
+                'max_size' => "8192000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                'max_height' => "1536",
+                'max_width' => "2048",
+                'encrypt_name' => TRUE
+            );
+            $this->load->library('upload', $config);
+
+            if (!($this->upload->do_upload('imageEvent'))) {
+
+                log_message('error', $this->upload->display_errors());
+                $data['message'] = "erreur : la photo n'a pas pu s'importer";
+                $this->load->view('errors/erreur_formulaire', $data);
+                $this->index();
+            } else {
+                $file_data = $this->upload->data();
+                var_dump($file_data);
+                $varid = (int) ($this->input->cookie('idOrga'));
+                $data = array(
+                    'nomEvent' => htmlspecialchars($_POST['nomEvent']),
+                    "dateDebut" => htmlspecialchars($_POST['dateDebut']),
+                    "dateFin" => htmlspecialchars($_POST['dateFin']),
+                    "lieu" => htmlspecialchars($_POST['lieu']),
+                    "description" => htmlspecialchars($_POST['description']),
+                    "idType" => htmlspecialchars($_POST['idType']),
+                    "idOrga" => htmlspecialchars($varid),
+                    "imageEvent" => htmlspecialchars($file_data['file_name'])
+                );
+
+                $this->event->insert($data);
+                $data['message'] = "erreur : nouvel événements créé!";
+                $this->load->view('errors/validation_formulaire', $data);
+                $this->mes_events();
+            }
+        } else {
+            $data['message'] = "session expirée";
+            $data['title'] = "Connexion";
+            $this->load->view('errors/erreur_formulaire', $data);
+            $this->load->view('template/header', $data);
+            $this->load->view('template/navbar');
+            $this->load->view('organisateur/connexion');
+            $this->load->view('template/footer');
+        }
+    }
+
+    public function supprimer_benevole($idE, $idB) {
+        $this->participer->delete($idE, $idB);
+        $data['message'] = "erreur : inscription supprimée";
+        $this->load->view('errors/validation_formulaire', $data);
+        $this->mes_events();
+    }
+
+    public function afficher_benevoles($idE) {
+        $data['benevoles'] = $this->participer->selectParticipant($idE);
+        var_dump($data['benevoles']);
+        $data['title'] = "participants";
+        $this->load->view('template/header', $data);
+        $this->load->view('organisateur/navbarO');
+        $this->load->view('organisateur/liste_benevoles',$data);
+        $this->load->view('template/footer');
+    }
+    
+    public function update_mdp(){
+        
+    }
+    
+    
+    
 
 }

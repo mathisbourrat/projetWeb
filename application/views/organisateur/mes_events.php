@@ -19,6 +19,7 @@
                             <td><?php echo $item->dateDebut; ?></td>
                             <td><?php echo $item->lieu; ?></td>
                             <td><p><a href="<?php echo base_url("index.php/AccueilCtrl/afficher_event/" . $item->idEvent); ?>">Plus</a></p></td>
+                            <td><p><a href="<?php echo base_url("index.php/OrganisateurCtrl/afficher_benevoles/" . $item->idEvent); ?>">Plus</a></p></td>
                         </tr>
                     <?php } ?>
                 </tbody>

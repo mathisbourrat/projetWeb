@@ -74,6 +74,7 @@ class event extends CI_Model {
                 ->set('dateFin', $data['dateFin'])
                 ->set('lieu', $data['lieu'])
                 ->set('idType', $data['idType'])
+                ->set('idOrga', $data['idOrga'])
                 ->set('description', $data['description'])
                 ->set('imageEvent', $data['imageEvent'])
                 ->insert($this->table);

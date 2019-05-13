@@ -74,6 +74,8 @@ class benevole extends CI_Model {
             return $this->db->where('idOrga',$id) ->delete($this->table);
     	}
         
+    
+        
         
 
 }

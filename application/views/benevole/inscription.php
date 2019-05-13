@@ -31,7 +31,7 @@
                     
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre mail</h5></strong></label>
-                        <input type="mail" class="form-control" name="mailBen" value="" size="50" placeholder="Email" required valid_email/>
+                        <input type="email" class="form-control" name="mailBen" value="" size="50" placeholder="Email" required valid_email/>
                     </div>
 
                     <div class="form-group">

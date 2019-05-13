@@ -17,9 +17,7 @@
                             <a href="#" class="ForgetPwd">Mot de passe oublié</a>
                         </div>
                     </form>
-					<div class="text-center">
-                            <a href="<?php echo base_url()?>OrganisateurCtrl/inscription" role="button" ><input type="submit" class="btnNew" value="Vous êtes nouveaux ?"/></a>
-					</div>
+			
                     <?php echo form_close(); ?>
                 </div>
             </div>

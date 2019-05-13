@@ -11,7 +11,6 @@
     <div class="row">
         <div class="col-md-6 login-form-3"><br>
 
-            <!-- renvoie tous les messages d'erreur, une chaine vide sinon -->
             <?php echo form_open_multipart('OrganisateurCtrl/create_event'); ?>
 
 
@@ -27,10 +26,10 @@
                 <label class="control-label"><h5><strong>Nom de votre événement</h5></strong></label>
                 <input type="text" class="form-control" name="nomEvent" placeholder="Nom" value="" size="50" required /> 
             </div>
-            <!--<div class="form-group">
+            <div class="form-group">
                 <label class="control-label"><h5><strong>Affiche</h5></strong></label>
                 <input type="file" class="form-control" name="imageEvent" value="" size="50" required/>
-            </div> -->
+            </div>
             <div class="form-group">
                 <label class="control-label"><h5><strong>Début</h5></strong></label>
                 <input type="date" class="form-control" name="dateDebut" placeholder="debut" value="" size="50" required /> 
@@ -51,14 +50,14 @@
                 <label class="control-label"><h5><strong>Description</h5></strong></label>
                 <input type="text" class="form-control" name="description" value="" placeholder="lieu" size="50" required/>
             </div>
-
-            <div  class="form-group">
-                <label class="control-label"><h5><strong>Genre</h5></strong></label>
-                <select name ="idGenre" required>
-                    <option  value="1">Musique</option>
-                    <option  value="2">Art</option>
-                </select>                    
+            
+            <div class="form-group">
+                <label class="control-label"><h5><strong>IdType</h5></strong></label>
+                <h3>1 ou 2</h3>
+                <input type="text" class="form-control" name="idType" value="" placeholder="idType" size="50" required/>
             </div>
+
+            
 
 
 

@@ -64,7 +64,6 @@ class organisateur extends CI_Model {
                 ->set('codePOrga', $data['codePOrga'])
                 ->set('villeOrga', $data['villeOrga'])
                 ->set('adresseOrga', $data['telOrga'])
-                ->set('mdpOrga', $data['mdpOrga'])
                 ->where('idOrga', $id)
 		->update($this->table);
 	}

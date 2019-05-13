@@ -33,7 +33,7 @@
                     
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre mail</h5></strong></label>
-                        <input type="mail" class="form-control" name="mailOrga" value="" size="50" placeholder="Email" required valid_email/>
+                        <input type="email" class="form-control" name="mailOrga" value="" size="50" placeholder="Email" required valid_email/>
                     </div>
 
                     <div class="form-group">
@@ -67,16 +67,8 @@
 				
 
             <br>
-            <br>
-
-
-
+           
             </div>
         
     </div>
 </div>
-
-         <!--           <div class="form-group"><h5>
-                       
- <input type="checkbox" name="conditionsUtilisation" required/>  Je m'engage à respecter les <a href="<?php echo base_url("ClientCtrl/condition_utilisation/");?>">conditions d'utilisation</a> de ce site
-                    </h5></div> -->

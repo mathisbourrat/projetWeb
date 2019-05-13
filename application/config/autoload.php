@@ -17,4 +17,4 @@ $autoload['config'] = array();
 
 $autoload['language'] = array();
 
-$autoload['model'] = array('organisateur','benevole','event');
+$autoload['model'] = array('organisateur','benevole','event','participer');

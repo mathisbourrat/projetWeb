@@ -11,7 +11,6 @@ class BenevoleCtrl extends CI_Controller {
             $this->load->view('benevole/accueil');
             $this->load->view('template/footer');
         } else {
-            echo "vous n'êtes plus connecté";
             $data['title'] = 'connexion';
             $this->load->view('template/header', $data);
             $this->load->view('template/navbar');
@@ -61,7 +60,7 @@ class BenevoleCtrl extends CI_Controller {
                 "mdpBen" => htmlspecialchars(crypt($_POST['mdpBen'], 'md5')));
             $this->benevole->insert($data);
             echo "Vous avez été inscrit en tant que benevole";
-            $this->load->view('home');
+            $this->index();
         } else {
             echo "erreur : la confirmation de Mot de passe ne correspond pas au premier";
             $this->load->view('benevole/inscription');
@@ -72,12 +71,22 @@ class BenevoleCtrl extends CI_Controller {
         $benevole = $this->benevole->selectByMail($_POST['mailBen']);
         $idBenevole = $benevole[0]->idBen;
         if ($benevole == null) {
-            echo "erreur : cet email n'existe pas"; //a gicler
-            $this->load->view('benevole/connexion');
-        } else {
+            echo "sucepute";
+            $data['title'] = "connexion";
+                $this->load->view('template/header', $data);
+                $this->load->view('template/navbar');
+                $this->load->view('organisateur/connexion');
+                $this->load->view('template/footer');
+                $this->load->view('benevole/connexion');}
+                else {
             if (!password_verify($_POST['mdpBen'], $benevole[0]->mdpBen)) {
                 echo "erreur : mauvais mot de passe";
-                $this->load->view('benvole/connexion');
+                $data['title'] = "connexion";
+                $this->load->view('template/header', $data);
+                $this->load->view('template/navbar');
+                $this->load->view('organisateur/connexion');
+                $this->load->view('template/footer');
+                $this->load->view('benevole/connexion');
             } else {
                 $data['benevole'] = $benevole;
                 $mdpBenevole = $benevole[0]->mdpBen;
@@ -165,30 +174,26 @@ class BenevoleCtrl extends CI_Controller {
         $this->load->view('benevole/liste_event', $data);
         $this->load->view('template/footer');
     }
-    
-    public function participer($idEvent){
-        if(isset($_COOKIE['idBen'])){
-            $idBen=$this->input->cookie('idBen');
+
+    public function participer($idEvent) {
+        if (isset($_COOKIE['idBen'])) {
+            $idBen = $this->input->cookie('idBen');
             $this->load->model('participer');
-            $participation=$this->participer->selectByKey($idEvent,$idBen);
+            $participation = $this->participer->selectByKey($idEvent, $idBen);
             var_dump($participation);
-            if(empty($participation)){
-                $data= ['idBen'=>$idBen,
-                    'idEvent'=>$idEvent];
+            if (empty($participation)) {
+                $data = ['idBen' => $idBen,
+                    'idEvent' => $idEvent];
                 $this->participer->insert($data);
                 $data['message'] = "participation enregistrée";
                 $this->load->view('errors/validation_formulaire', $data);
                 $this->index();
+            } else {
+                $data['message'] = "Vous participer déja à cet événement";
+                $this->load->view('errors/erreur_formulaire', $data);
+                $this->liste_prochains_events();
             }
-            else{
-            $data['message'] = "Vous participer déja à cet événement";
-            $this->load->view('errors/erreur_formulaire', $data);
-            $this->liste_prochains_events();
-            }
-            
-
-        }
-        else{
+        } else {
             $data['message'] = "erreur : session expirée";
             $this->load->view('errors/erreur_formulaire', $data);
             $data['title'] = 'connexion';
@@ -197,7 +202,6 @@ class BenevoleCtrl extends CI_Controller {
             $this->load->view('benevole/connexion');
             $this->load->view('template/footer');
         }
-            
-        }
-}
+    }
 
+}

@@ -30,18 +30,11 @@
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/mes_events"); ?>">Voir mes évenements</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/create_event"); ?>">Créer un évenement</a></li>
+                            <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/creation"); ?>">Créer un évenement</a></li>
                         </ul>
                     </li>
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evenement<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Par catégorie</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/AccueilCtrl/liste_event"); ?>">Par date</a></li>
-                        </ul>
-                    </li>
+                    
                 </ul>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">

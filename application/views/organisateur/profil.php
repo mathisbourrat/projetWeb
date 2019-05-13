@@ -30,15 +30,7 @@
                         <input type="text" class="form-control" name="mailOrga" value="<?php echo $organisateur[0]->mailOrga; ?>" size="30" required/> 
                     </div>  
                     
-                    <div class="form-group">
-                        <label class="control-label">Mot de passe</label>
-                        <h3 text-color='red'>pas toucher pour le moment</h3>
-                        <input type="password" class="form-control" name="mdpOrga" value="" size="30" required />
-                    </div>    
-                    <div class="form-group">
-                        <label class="control-label">Confirmez votre mot de passe</label>
-                        <input type="password" class="form-control" name="mdpOrga2" value="" size="30" required />
-                    </div>    
+                        
                     <div class="form-group">
                         <label class="control-label">Adresse</label>
                         <input type="text" class="form-control" name="adresseOrga" value="<?php echo $organisateur[0]->adresseOrga; ?>" size="30" required/>
