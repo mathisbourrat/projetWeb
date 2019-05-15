@@ -18,15 +18,25 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
-    
+
     public function selectAllByDate() {
 
 
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->order_by('dateDebut')
+                        ->get()
+                        ->result();
+    }
+
+    public function select3ByDate() {
         $this->load->database();
 
         return $this->db->select('*')
                         ->from('event')
                         ->order_by('dateDebut')
+                ->limit(3)
                         ->get()
                         ->result();
     }
@@ -41,9 +51,9 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
-    
-    public function selectByName($name){
-        
+
+    public function selectByName($name) {
+
         $this->load->database();
 
         return $this->db->select('*')
@@ -52,7 +62,7 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
-    
+
     public function selectByIdOrga($idOrganisateur) {
 
         $this->load->database();
@@ -63,8 +73,6 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
-    
-    
 
     public function insert($data) {
 
@@ -79,25 +87,43 @@ class event extends CI_Model {
                 ->set('imageEvent', $data['imageEvent'])
                 ->insert($this->table);
     }
-    
+
     public function update($id, $data) {
 
-		$this->load->database();
-		$this->db->set('nomEvent', $data['nomEvent'])
+        $this->load->database();
+        $this->db->set('nomEvent', $data['nomEvent'])
                 ->set('dateDebut', $data['dateDebut'])
                 ->set('dateFin', $data['dateFin'])
                 ->set('lieu', $data['lieu'])
-                ->set('idType', $data['idType'])
                 ->set('description', $data['description'])
-                ->where('idClient', $id)
-		->update($this->table);
-	}
+                ->where('idEvent', $id)
+                ->update($this->table);
+    }
 
-    public function delete($id){
-            $this->load->database();
-            return $this->db->where('idEvent',$id) ->delete($this->table);
-    	}
-        
-        
+    public function delete($id) {
+        $this->load->database();
+        return $this->db->where('idEvent', $id)->delete($this->table);
+    }
+
+    public function getName($id) {
+        $this->load->database();
+
+        return $this->db->select('nomEvent')
+                        ->from('event')
+                        ->where('idEvent', $id)
+                        ->get()
+                        ->result();
+    }
+    
+    public function selectByType($idT) {
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->where('idType', $idT)
+                        ->get()
+                        ->result();
+    }
 
 }

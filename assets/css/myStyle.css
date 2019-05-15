@@ -1,5 +1,4 @@
 
-
 container{
     width: 95%;
 }
@@ -7,3 +6,8 @@ container{
 thead{
     background-color: white;
 }
+
+a{
+    text-decoration: none;
+}
+

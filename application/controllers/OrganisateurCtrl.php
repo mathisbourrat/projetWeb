@@ -49,7 +49,6 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function connexion() {
         $organisateur = $this->organisateur->selectByMail($_POST['mailOrga']);
-        var_dump($organisateur);
         $mdpOrganisateur = $_POST['mdpOrga'];
         if ($organisateur == null) {
             echo "erreur : cet email n'existe pas"; //a gicler
@@ -78,14 +77,13 @@ class OrganisateurCtrl extends CI_Controller {
     public function deconnexion() {
         $this->load->helper('cookie');
         $this->session->unset_userdata('username');
-        delete_cookie('idOrga');
-        //setcookie('idOrga', "", time() - 3600);
-        setcookie('mdpOrga', "", time() - 3600);
+        setcookie('idOrga', "", 0);
+        setcookie('mdpOrga', "", 0);
         $data['title'] = "accueil";
-        var_dump($_COOKIE['idOrga']);
+        $data['event']= $this->event->select3byDate();
         $this->load->view('template/header', $data);
         $this->load->view('template/navbar');
-        $this->load->view('home');
+        $this->load->view('home',$data);
         $this->load->view('template/footer');
     }
 
@@ -111,7 +109,7 @@ class OrganisateurCtrl extends CI_Controller {
         // modifie le profil à l'envoi du formulaire
     }
 
-    public function modifier() {
+    public function modifier_profil() {
 
         if (isset($_COOKIE['idOrga'])) {
             $varid = $this->input->cookie('idOrga');
@@ -125,8 +123,7 @@ class OrganisateurCtrl extends CI_Controller {
                 $data['message'] = "erreur : Vous ne pouvez pas changer votre adresse email";
                 $this->load->view('errors/erreur_formulaire', $data);
                 $this->index();
-            } else
-                {
+            } else {
                 $data = array(
                     "nomOrga" => htmlspecialchars($_POST['nomOrga']),
                     "prenomOrga" => htmlspecialchars($_POST['prenomOrga']),
@@ -146,7 +143,7 @@ class OrganisateurCtrl extends CI_Controller {
                 $this->load->view('organisateur/navbarO');
                 $this->load->view('organisateur/accueil');
                 $this->load->view('template/footer');
-                }  
+            }
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
             $this->load->view('errors/erreur_formulaire', $data);
@@ -174,12 +171,29 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-    public function creation() {
+    public function creation_event() {
         if (isset($_COOKIE['idOrga'])) {
             $data['title'] = "créer son événement";
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/creation_event');
+            $this->load->view('template/footer');
+        } else {
+            $data['title'] = "connexion";
+            $this->load->view('template/header', $data);
+            $this->load->view('template/navbar');
+            $this->load->view('organisateur/connexion');
+            $this->load->view('template/footer');
+        }
+    }
+
+    public function modification_event($idE) {
+        if (isset($_COOKIE['idOrga'])) {
+            $data['event'] = $this->event->selectById($idE);
+            $data['title'] = "modifier son événements";
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/modification_event', $data);
             $this->load->view('template/footer');
         } else {
             $data['title'] = "connexion";
@@ -242,28 +256,61 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
+    public function modifier_event($idE) {
+        if (isset($_COOKIE['idOrga'])) {
+            $data = array(
+                "nomEvent" => htmlspecialchars($_POST['nomEvent']),
+                "dateDebut" => htmlspecialchars($_POST['dateDebut']),
+                "dateFin" => htmlspecialchars($_POST['dateFin']),
+                "lieu" => htmlspecialchars($_POST['lieu']),
+                "description" => htmlspecialchars($_POST['description']),
+            );
+
+            $this->event->update($idE, $data);
+            $data['message'] = "événements modifié avec succès";
+            $data['title'] = "mes événements";
+            $this->load->view('errors/validation_formulaire', $data);
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/mes_events');
+            $this->load->view('template/footer');
+        } else {
+            $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
+            $this->load->view('errors/erreur_formulaire', $data);
+            $this->load->view('organisateur/connexion');
+        }
+    }
+
     public function supprimer_benevole($idE, $idB) {
         $this->participer->delete($idE, $idB);
-        $data['message'] = "erreur : inscription supprimée";
+        $data['message'] = "inscription supprimée";
         $this->load->view('errors/validation_formulaire', $data);
-        $this->mes_events();
+        $this->afficher_benevoles($idE);
     }
 
     public function afficher_benevoles($idE) {
         $data['benevoles'] = $this->participer->selectParticipant($idE);
-        var_dump($data['benevoles']);
+        $data['nameEvent'] = $this->event->getName($idE);
         $data['title'] = "participants";
         $this->load->view('template/header', $data);
         $this->load->view('organisateur/navbarO');
-        $this->load->view('organisateur/liste_benevoles',$data);
+        $this->load->view('organisateur/liste_benevoles', $data);
         $this->load->view('template/footer');
     }
-    
-    public function update_mdp(){
+
+    public function update_mdp() {
         
     }
-    
-    
-    
+
+    public function supprimer_event($idE) {
+        $this->event->delete($idE);
+        $data['message'] = "événement supprimé";
+        $data['title'] = "mes événements";
+        $this->load->view('errors/validation_formulaire', $data);
+        $this->load->view('template/header', $data);
+        $this->load->view('organisateur/navbarO');
+        $this->load->view('organisateur/mes_events');
+        $this->load->view('template/footer');
+    }
 
 }

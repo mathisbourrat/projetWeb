@@ -10,10 +10,12 @@ class AccueilCtrl extends CI_Controller {
     }
 
     public function accueil() {
-        $this->load->view('template/navbar');
+        $data['typeEvent']=$this->typeevent->selectAll();
+        $this->load->view('template/navbar',$data);
         $data['title'] = 'Accueil';
+        $data['event']= $this->event->select3byDate();   
         $this->load->view('template/header', $data);
-        $this->load->view('home');
+        $this->load->view('home', $data);
         $this->load->view('template/footer');
     }
 
@@ -57,12 +59,20 @@ class AccueilCtrl extends CI_Controller {
         $data['title'] = 'Prochains événements';
         $this->load->view('template/header', $data);
         $this->load->view('template/navbar');
-        
         $data['event'] = $this->event->selectAllByDate();
         $this->load->view('liste_event', $data);
         $this->load->view('template/footer');
-        $this->load->model('event');
+        
     }
+    
+    public function liste_type_event($idT){
+        $data['title'] = 'Voici les événements correspondant à votre recherche';
+        $this->load->view('template/header', $data);
+        $this->load->view('template/navbar');
+        $data['event'] = $this->event->selectByType($idT);
+        $this->load->view('liste_event', $data);
+        $this->load->view('template/footer');
+        }
 
     public function search_event() {
         $this->load->model('event');

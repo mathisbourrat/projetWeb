@@ -10,7 +10,9 @@
                         <th scope="col">Lieu</th>
                         <th scope="col">Voir</th>
                         <th scope="col">Bénévole</th>
-                    </tr>
+                        <th scope="col">Modifier</th>
+                          </tr>
+                          
                 </thead>
                 <tbody>
                     <tr>
@@ -20,6 +22,8 @@
                             <td><?php echo $item->lieu; ?></td>
                             <td><p><a href="<?php echo base_url("index.php/AccueilCtrl/afficher_event/" . $item->idEvent); ?>">Plus</a></p></td>
                             <td><p><a href="<?php echo base_url("index.php/OrganisateurCtrl/afficher_benevoles/" . $item->idEvent); ?>">Plus</a></p></td>
+                            <td><p><a href="<?php echo base_url("index.php/OrganisateurCtrl/modification_event/" . $item->idEvent); ?>">Plus</a></p></td>
+
                         </tr>
                     <?php } ?>
                 </tbody>

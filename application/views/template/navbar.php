@@ -38,10 +38,15 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evenement <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Par catégorie</a></li>
+                            <?php foreach ($typeEvent as $item) { ?>
+                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/AccueilCtrl/liste_type_event/" . $item->idType); ?>"><?php echo $item->descriptionType; ?></a></li>
+                            
+                    <?php } ?>
                             <li role="separator" class="divider"></li>
                             <li><a href="<?php echo base_url("index.php/AccueilCtrl/liste_prochain_event"); ?>">Par date</a></li>
                         </ul>
                     </li>
+                    
                 </ul>
                 <form action="<?php echo base_url("index.php/AccueilCtrl/search_event"); ?>" method="post" class="navbar-form navbar-left">
                     <div class="form-group">
@@ -59,3 +64,11 @@
         </div><!-- /.container-fluid -->
     </nav>
 </div>
+
+
+
+
+
+
+
+

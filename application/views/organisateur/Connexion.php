@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <a href="#" class="ForgetPwd">Mot de passe oublié</a>
                         </div>
-                    </form>
+                    
 			
                     <?php echo form_close(); ?>
                 </div>

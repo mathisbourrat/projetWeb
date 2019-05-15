@@ -68,17 +68,19 @@ class BenevoleCtrl extends CI_Controller {
     }
 
     public function connexion() {
-        $benevole = $this->benevole->selectByMail($_POST['mailBen']);
-        $idBenevole = $benevole[0]->idBen;
+        $data['benevole'] = $this->benevole->selectByMail($_POST['mailBen']);
+        $benevole = $data['benevole'];
+        var_dump($benevole);
         if ($benevole == null) {
-            echo "sucepute";
             $data['title'] = "connexion";
-                $this->load->view('template/header', $data);
-                $this->load->view('template/navbar');
-                $this->load->view('organisateur/connexion');
-                $this->load->view('template/footer');
-                $this->load->view('benevole/connexion');}
-                else {
+            $this->load->view('template/header', $data);
+            $this->load->view('template/navbar');
+            $this->load->view('organisateur/connexion');
+            $this->load->view('template/footer');
+            $this->load->view('benevole/connexion');
+        } else {
+            
+            $idBenevole = $benevole[0]->idBen;
             if (!password_verify($_POST['mdpBen'], $benevole[0]->mdpBen)) {
                 echo "erreur : mauvais mot de passe";
                 $data['title'] = "connexion";
@@ -107,10 +109,10 @@ class BenevoleCtrl extends CI_Controller {
         setcookie('idBen', "", time() - 3600);
         setcookie('mdpBen', "", time() - 3600);
         $data['title'] = "accueil";
-        var_dump($_COOKIE['idBen']);
+        $data['event']= $this->event->select3byDate();
         $this->load->view('template/header', $data);
         $this->load->view('template/navbar');
-        $this->load->view('home');
+        $this->load->view('home',$data);
         $this->load->view('template/footer');
     }
 

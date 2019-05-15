@@ -30,7 +30,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/mes_events"); ?>">Voir mes évenements</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/creation"); ?>">Créer un évenement</a></li>
+                            <li><a href="<?php echo base_url("index.php/OrganisateurCtrl/creation_event"); ?>">Créer un évenement</a></li>
                         </ul>
                     </li>
 

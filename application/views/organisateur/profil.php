@@ -14,7 +14,7 @@
 
                     <br>
                     <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
-                    <?php echo form_open('OrganisateurCtrl/modifier'); ?>
+                    <?php echo form_open('OrganisateurCtrl/modifier_profil'); ?>
                     <div class="form-group">
                         <label class="control-label">Nom</label>
                         <input type="text" class="form-control" name="nomOrga" value="<?php echo  $organisateur[0]->nomOrga; ?>" size="30" required/> 

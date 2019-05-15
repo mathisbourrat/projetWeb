@@ -35,20 +35,18 @@ class typeevent extends CI_Model {
         $this->db->set('descriptionType', $data['descriptionType'])
                 ->insert($this->table);
     }
-    
+
     public function update($id, $data) {
 
-		$this->load->database();
-		$this->db->set('descriptionType', $data['descriptionType'])
+        $this->load->database();
+        $this->db->set('descriptionType', $data['descriptionType'])
                 ->where('idType', $id)
-		->update($this->table);
-	}
+                ->update($this->table);
+    }
 
-    public function delete($id){
-            $this->load->database();
-            return $this->db->where('idType',$id) ->delete($this->table);
-    	}
-        
-        
-
-}
+    public function delete($id) {
+        $this->load->database();
+        return $this->db->where('idType', $id)->delete($this->table);
+    }
+    
+    }
