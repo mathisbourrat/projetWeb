@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Futurs Evénements!</h2>
+    <h2>Evénements correspondant à votre recherche</h2>
     
 
 <div class="panel panel-default">

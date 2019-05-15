@@ -9,7 +9,7 @@ $autoload['libraries'] = array('database','form_validation');
 $autoload['drivers'] = array('session');
 
 
-$autoload['helper'] = array('url','form');
+$autoload['helper'] = array('url','form','date','cookie');
 
 
 $autoload['config'] = array();
@@ -17,4 +17,4 @@ $autoload['config'] = array();
 
 $autoload['language'] = array();
 
-$autoload['model'] = array('organisateur','benevole','event','participer','typeevent');
+$autoload['model'] = array('organisateur','benevole','event','participer','typeevent','CookieModel');

@@ -79,6 +79,16 @@ class participer extends CI_Model {
                 ->get()
                 ->result();
     }
+    
+    public function selectEvent($idB){
+        $this->load->database();
+        return $this->db->select('*')
+                ->from('participer p')
+                ->join('event e','e.idEvent = p.idEvent')
+                ->where('idBen',$idB)
+                ->get()
+                ->result();
+    }
 
 }
 

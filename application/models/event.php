@@ -20,23 +20,26 @@ class event extends CI_Model {
     }
 
     public function selectAllByDate() {
-
-
-
+        
+        
+        $date = date('Y/m/d');      
         return $this->db->select('*')
                         ->from('event')
+                ->where('dateDebut >',$date)
                         ->order_by('dateDebut')
                         ->get()
                         ->result();
     }
 
     public function select3ByDate() {
-        $this->load->database();
 
+        $date = date('Y/m/d');
+        $this->load->database();
         return $this->db->select('*')
                         ->from('event')
+                        ->where('dateDebut >',$date)
                         ->order_by('dateDebut')
-                ->limit(3)
+                        ->limit(3)
                         ->get()
                         ->result();
     }
@@ -114,7 +117,7 @@ class event extends CI_Model {
                         ->get()
                         ->result();
     }
-    
+
     public function selectByType($idT) {
 
         $this->load->database();
@@ -122,6 +125,18 @@ class event extends CI_Model {
         return $this->db->select('*')
                         ->from('event')
                         ->where('idType', $idT)
+                        ->get()
+                        ->result();
+    }
+
+    public function search($name) {
+
+        $this->load->database();
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->like('nomEvent', $name)
+                        ->or_like('lieu', $name)
                         ->get()
                         ->result();
     }
