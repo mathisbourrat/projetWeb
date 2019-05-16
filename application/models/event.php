@@ -1,6 +1,6 @@
 <?php
 
-class event extends CI_Model {
+class Event extends CI_Model {
 
     protected $table = 'event';
 
@@ -20,12 +20,12 @@ class event extends CI_Model {
     }
 
     public function selectAllByDate() {
-        
-        
-        $date = date('Y/m/d');      
+
+
+        $date = date('Y/m/d');
         return $this->db->select('*')
                         ->from('event')
-                ->where('dateDebut >',$date)
+                        ->where('dateDebut >', $date)
                         ->order_by('dateDebut')
                         ->get()
                         ->result();
@@ -37,7 +37,7 @@ class event extends CI_Model {
         $this->load->database();
         return $this->db->select('*')
                         ->from('event')
-                        ->where('dateDebut >',$date)
+                        ->where('dateDebut >', $date)
                         ->order_by('dateDebut')
                         ->limit(3)
                         ->get()
@@ -140,6 +140,11 @@ class event extends CI_Model {
                         ->or_like('lieu', $name)
                         ->get()
                         ->result();
+    }
+
+    public function count_event() {
+        $this->db->from('event');
+        return $num_rows = $this->db->count_all_results();
     }
 
 }

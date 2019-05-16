@@ -1,6 +1,6 @@
 <?php
 
-class benevole extends CI_Model {
+class Benevole extends CI_Model {
 
     protected $table = 'benevole';
 

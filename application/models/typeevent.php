@@ -1,6 +1,6 @@
 <?php
 
-class typeevent extends CI_Model {
+class Typeevent extends CI_Model {
 
     protected $table = 'typeevent';
 

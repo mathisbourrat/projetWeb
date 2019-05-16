@@ -9,8 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="<?php echo base_url("assets/css/bootstrap.min.css"); ?>" rel="stylesheet">
-    <link href="<?php echo base_url("assets/css/myStyle.css"); ?>" rel="stylesheet">
+    <link href="<?php echo base_url("assets/css/mystyle2.css"); ?>" rel="stylesheet">
   </head>
   <body>
-
       

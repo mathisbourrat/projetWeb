@@ -1,0 +1,40 @@
+body{
+    background-color: #E8E8E8;
+}
+
+.container{
+    width: 100%;
+}
+.navbar{
+    border:2px;
+    border-color:#DAB894;
+    width: 100%;
+    background-color: #DAB894;
+    margin: auto;
+    
+    border-radius: 4px;
+}
+
+thead{
+    background-color: white;
+}
+
+
+a{
+    text-decoration: none;
+}
+
+
+.table{
+    border: 5px;
+
+    border-style: outset; 
+}
+
+.thumbnail{
+    height: 500px;
+}
+
+.thumbnail img{
+    height: 70%
+}

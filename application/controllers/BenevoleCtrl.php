@@ -24,7 +24,7 @@ class BenevoleCtrl extends CI_Controller {
         var_dump($idLogged);
         if ((isset($idLogged))) {
 
-            $data['benevole'] = $this->benevole->selectById($idLogged);
+            $data['benevole'] = $this->Benevole->selectById($idLogged);
             $data['title'] = "votre profil";
             $this->load->view('template/header', $data);
             $this->load->view('benevole/navbarB');
@@ -44,7 +44,7 @@ class BenevoleCtrl extends CI_Controller {
         $this->load->helper('form', 'url');
         $this->load->library('form_validation');
         $this->load->model('benevole');
-        if (null != $this->benevole->selectByMail($_POST['mailBen'])) {
+        if (null != $this->Benevole->selectByMail($_POST['mailBen'])) {
             echo "erreur : cet email n'est pas disponible";
             $this->load->view('benevole/inscription');
         } else if ($_POST['mdpBen'] == $_POST['mdpBen2']) {
@@ -57,7 +57,7 @@ class BenevoleCtrl extends CI_Controller {
                 "villeBen" => htmlspecialchars($_POST['villeBen']),
                 "adresseBen" => htmlspecialchars($_POST['adresseBen']),
                 "mdpBen" => htmlspecialchars(crypt($_POST['mdpBen'], 'md5')));
-            $this->benevole->insert($data);
+            $this->Benevole->insert($data);
             echo "Vous avez été inscrit en tant que benevole";
             $this->index();
         } else {
@@ -70,13 +70,13 @@ class BenevoleCtrl extends CI_Controller {
         $this->load->model('CookieBenModel');
         $idLogged = $this->CookieBenModel->isLoggedIn();
         if (!(isset($idLogged))) {
-            $data['benevole'] = $this->benevole->selectByMail($_POST['mailBen']);
+            $data['benevole'] = $this->Benevole->selectByMail($_POST['mailBen']);
             $benevole = $data['benevole'];
 
             if ($benevole == null) {
                 $data['title'] = "connexion";
                 $this->load->view('template/header', $data);
-                $data['typeEvent'] = $this->typeevent->selectAll();
+                $data['typeEvent'] = $this->Typeevent->selectAll();
                 $this->load->view('template/navbar', $data);
                 $this->load->view('benevole/connexion');
                 $this->load->view('template/footer');
@@ -87,7 +87,7 @@ class BenevoleCtrl extends CI_Controller {
                     echo "erreur : mauvais mot de passe";
                     $data['title'] = "connexion";
                     $this->load->view('template/header', $data);
-                    $data['typeEvent'] = $this->typeevent->selectAll();
+                    $data['typeEvent'] = $this->Typeevent->selectAll();
                     $this->load->view('template/navbar', $data);
                     $this->load->view('benevole/connexion');
                     $this->load->view('template/footer');                    
@@ -118,25 +118,13 @@ class BenevoleCtrl extends CI_Controller {
         redirect();
     }
 
-    /* public function logout() {
-      $this->session->unset_userdata('benevole');
-      setcookie('idBen', "", time() - 3600);
-      setcookie('mdpBen', "", time() - 3600);
-      $data['title'] = "accueil";
-      $data['event'] = $this->event->select3byDate();
-      $this->load->view('template/header', $data);
-      $data['typeEvent'] = $this->typeevent->selectAll();
-      $this->load->view('template/navbar', $data);
-      $this->load->view('home', $data);
-      $this->load->view('template/footer');
-      } */
 
     public function modifier() {
 
         $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
 
-            $data['benevole'] = $this->benevole->selectById($idLogged);
+            $data['benevole'] = $this->Benevole->selectById($idLogged);
             $mdp = $data['benevole'][0]->mdpBen;
             $id = $data['benevole'][0]->idBen;
             $varmail = $data['benevole'][0]->mailBen;
@@ -157,7 +145,7 @@ class BenevoleCtrl extends CI_Controller {
                     "telBen" => htmlspecialchars($_POST['telBen'])
                 );
 
-                $this->benevole->update($idLogged, $data);
+                $this->Benevole->update($idLogged, $data);
                 $data['message'] = "Votre profil benevole a été modifié avec succès";
                 $data['title'] = "accueil";
                 $this->load->view('errors/validation_formulaire', $data);
@@ -183,7 +171,7 @@ class BenevoleCtrl extends CI_Controller {
 
     public function liste_prochains_events() {
 
-        $data['event'] = $this->event->selectAllByDate();
+        $data['event'] = $this->Event->selectAllByDate();
         $data['title'] = 'Prochains événements';
         $this->load->view('template/header', $data);
         $this->load->view('benevole/navbarB');
@@ -214,7 +202,7 @@ class BenevoleCtrl extends CI_Controller {
             $this->load->view('errors/erreur_formulaire', $data);
             $data['title'] = 'connexion';
             $this->load->view('template/header', $data);
-            $data['typeEvent'] = $this->typeevent->selectAll();
+            $data['typeEvent'] = $this->Typeevent->selectAll();
             $this->load->view('template/navbar', $data);
             $this->load->view('benevole/connexion');
             $this->load->view('template/footer');

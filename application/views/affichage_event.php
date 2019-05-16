@@ -3,7 +3,9 @@
         <div>
             <h1><?php echo $event[0]->nomEvent; ?></h1>
         </div>
+        <div class="test1234">
         <div class="col-lg-6">
+            
 
             <img src="<?php echo base_url("./assets/image/Event/") . $event[0]->imageEvent; ?>">
         </div>
@@ -14,5 +16,6 @@
             
 
         </div>
+          </div>
     </div>
 </div>

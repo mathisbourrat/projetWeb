@@ -6,7 +6,7 @@ $autoload['packages'] = array();
 $autoload['libraries'] = array('database','form_validation');
 
 
-$autoload['drivers'] = array('session');
+$autoload['drivers'] = array();
 
 
 $autoload['helper'] = array('url','form','date','cookie');
@@ -17,4 +17,4 @@ $autoload['config'] = array();
 
 $autoload['language'] = array();
 
-$autoload['model'] = array('organisateur','benevole','event','participer','typeevent','CookieBenModel','CookieOrgaModel');
+$autoload['model'] = array('Organisateur','Benevole','Event','Participer','Typeevent','CookieBenModel','CookieOrgaModel');

@@ -1,6 +1,6 @@
 <?php
 
-class organisateur extends CI_Model {
+class Organisateur extends CI_Model {
 
     protected $table = 'organisateur';
 

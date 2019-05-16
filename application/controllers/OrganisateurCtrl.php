@@ -25,8 +25,8 @@ class OrganisateurCtrl extends CI_Controller {
         $this->load->helper('form', 'url');
         $this->load->library('form_validation');
         $this->load->view('organisateur/inscription');
-        $this->load->model('organisateur');
-        if (null != $this->organisateur->selectByMail($_POST['mailOrga'])) {
+        
+        if (null != $this->Organisateur->selectByMail($_POST['mailOrga'])) {
             echo "erreur : cet email n'est pas disponible";
             $this->load->view('organisateur/inscription');
         } else if ($_POST['mdpOrga'] == $_POST['mdpOrga2']) {
@@ -39,8 +39,9 @@ class OrganisateurCtrl extends CI_Controller {
                 "villeOrga" => htmlspecialchars($_POST['villeOrga']),
                 "adresseOrga" => htmlspecialchars($_POST['adresseOrga']),
                 "mdpOrga" => htmlspecialchars(crypt($_POST['mdpOrga'], 'md5')));
-            $this->organisateur->insert($data);
-            echo "Vous avez été inscrit en tant qu'organisateur";
+            $this->Organisateur->insert($data);
+            $data['message'] = "inscription réussite";
+            $this->load->view('errors/validation_formulaire', $data);
             $this->load->view('home');
         } else {
             echo "erreur : la confirmation de Mot de passe ne correspond pas au premier";
@@ -52,13 +53,13 @@ class OrganisateurCtrl extends CI_Controller {
     public function connexion() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if (!(isset($idLogged))) {
-            $data['organisateur'] = $this->organisateur->selectByMail($_POST['mailOrga']);
+            $data['organisateur'] = $this->Organisateur->selectByMail($_POST['mailOrga']);
             $organisateur = $data['organisateur'];
 
             if ($organisateur == null) {
                 $data['title'] = "connexion";
                 $this->load->view('template/header', $data);
-                $data['typeEvent'] = $this->typeevent->selectAll();
+                $data['typeEvent'] = $this->Typeevent->selectAll();
                 $this->load->view('template/navbar', $data);
                 $this->load->view('organisateur/connexion');
                 $this->load->view('template/footer');
@@ -69,7 +70,7 @@ class OrganisateurCtrl extends CI_Controller {
                     echo "erreur : mauvais mot de passe";
                     $data['title'] = "connexion";
                     $this->load->view('template/header', $data);
-                    $data['typeEvent'] = $this->typeevent->selectAll();
+                    $data['typeEvent'] = $this->Typeevent->selectAll();
                     $this->load->view('template/navbar', $data);
                     $this->load->view('organisateur/connexion');
                     $this->load->view('template/footer');
@@ -102,7 +103,7 @@ class OrganisateurCtrl extends CI_Controller {
     public function profil() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
-                $data['organisateur'] = $this->organisateur->selectById($idLogged);
+                $data['organisateur'] = $this->Organisateur->selectById($idLogged);
                 $data['title'] = "votre profil";
                 $this->load->view('template/header', $data);
                 $this->load->view('organisateur/navbarO');
@@ -123,7 +124,7 @@ class OrganisateurCtrl extends CI_Controller {
 
             $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
-            $data['organisateur'] = $this->organisateur->selectById($idLogged);
+            $data['organisateur'] = $this->Organisateur->selectById($idLogged);
             $mdp = $data['organisateur'][0]->mdpOrga;
             $id = $data['organisateur'][0]->idOrga;
             $varmail = $data['organisateur'][0]->mailOrga;
@@ -144,7 +145,7 @@ class OrganisateurCtrl extends CI_Controller {
                 );
 
                 $this->organisateur->update($idLogged, $data);
-                $data['organisateur'] = $this->organisateur->selectByMail($varmail);
+                $data['organisateur'] = $this->Organisateur->selectByMail($varmail);
                 $data['message'] = "Votre profil organisateur a été modifié avec succès";
                 $data['title'] = "accueil";
                 $this->load->view('errors/validation_formulaire', $data);
@@ -163,7 +164,7 @@ class OrganisateurCtrl extends CI_Controller {
     public function mes_events() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
-            $data['event'] = $this->event->selectByIdOrga($idLogged);
+            $data['event'] = $this->Event->selectByIdOrga($idLogged);
             $data['title'] = 'Mes événements';
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
@@ -184,7 +185,7 @@ class OrganisateurCtrl extends CI_Controller {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
             $data['title'] = "créer son événement";
-            $data['typeEvent']=$this->typeevent->selectAll();
+            $data['typeEvent']=$this->Typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/creation_event',$data);
@@ -201,9 +202,9 @@ class OrganisateurCtrl extends CI_Controller {
     public function modification_event($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
-            $data['event'] = $this->event->selectById($idE);
+            $data['event'] = $this->Event->selectById($idE);
             $data['title'] = "modifier son événement";
-            $data['typeEvent']=$this->typeevent->selectAll();
+            $data['typeEvent']=$this->Typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/modification_event', $data);
@@ -253,7 +254,7 @@ class OrganisateurCtrl extends CI_Controller {
                     "imageEvent" => htmlspecialchars($file_data['file_name'])
                 );
 
-                $this->event->insert($data);
+                $this->Event->insert($data);
                 $data['message'] = "Nouvel événements créé!";
                 $this->load->view('errors/validation_formulaire', $data);
                 $this->mes_events();
@@ -281,7 +282,7 @@ class OrganisateurCtrl extends CI_Controller {
                 "idType"=> htmlspecialchars($_POST['idType'])
             );
 
-            $this->event->update($idE, $data);
+            $this->Event->update($idE, $data);
             $data['message'] = "événements modifié avec succès";
             $data['title'] = "mes événements";
             $this->load->view('errors/validation_formulaire', $data);
@@ -313,7 +314,7 @@ class OrganisateurCtrl extends CI_Controller {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))){
         $data['benevoles'] = $this->participer->selectParticipant($idE);
-        $data['nameEvent'] = $this->event->getName($idE);
+        $data['nameEvent'] = $this->Event->getName($idE);
         $data['title'] = "participants";
         $this->load->view('template/header', $data);
         $this->load->view('organisateur/navbarO');
@@ -324,7 +325,7 @@ class OrganisateurCtrl extends CI_Controller {
 
 
     public function supprimer_event($idE) {
-        $this->event->delete($idE);
+        $this->Event->delete($idE);
         $data['message'] = "événement supprimé";
         $data['title'] = "mes événements";
         $this->load->view('errors/validation_formulaire', $data);

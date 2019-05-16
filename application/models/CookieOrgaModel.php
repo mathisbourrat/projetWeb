@@ -18,7 +18,7 @@ class CookieOrgaModel extends CI_Model
         if (isset($cookie)) {
             $token = $data['token'];
             $idOrga = $data['idOrga'];
-            $query = $this->db->query('SELECT token FROM OrgaTokens WHERE idOrga = ?', $idOrga);
+            $query = $this->db->query('SELECT token FROM orgatokens WHERE idOrga = ?', $idOrga);
             $result = $query->result_array();
             foreach ($result as $t) {
                 if (password_verify($token, $t['token'])) {
@@ -37,12 +37,12 @@ class CookieOrgaModel extends CI_Model
         if (isset($cookie)) {
             $token = $data['token'];
             $idOrga = $data['idOrga'];
-            $query = $this->db->query('SELECT token FROM orgaTokens WHERE idOrga = ?', $idOrga);
+            $query = $this->db->query('SELECT token FROM orgatokens WHERE idOrga = ?', $idOrga);
             $result = $query->result_array();
             foreach ($result as $t) {
                 if (password_verify($token, $t['token'])) {
                     delete_cookie('LoginToken');
-                    $this->db->delete('orgaTokens', array('token' => $t['token']));
+                    $this->db->delete('orgatokens', array('token' => $t['token']));
                 }
             }
         }

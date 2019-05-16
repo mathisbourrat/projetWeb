@@ -1,6 +1,12 @@
+body{
+    background-color: red;
+}
 
-container{
-    width: 95%;
+.container{
+    width: 100%;
+}
+.navbar{
+    background-color: red;
 }
 
 thead{
@@ -11,3 +17,7 @@ a{
     text-decoration: none;
 }
 
+.test1234{
+    border:2px;
+    border-color: lightblue;
+}
