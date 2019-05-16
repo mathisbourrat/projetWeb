@@ -4,8 +4,9 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function index() {
 
-        if (isset($_COOKIE['idOrga']) && isset($_COOKIE['mdpOrga'])) {
-            $data['titre'] = 'bienvenue';
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
+            $data['title'] = 'bienvenue';
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/accueil');
@@ -47,59 +48,68 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
+        
     public function connexion() {
-        $organisateur = $this->organisateur->selectByMail($_POST['mailOrga']);
-        $mdpOrganisateur = $_POST['mdpOrga'];
-        if ($organisateur == null) {
-            echo "erreur : cet email n'existe pas"; //a gicler
-            $this->load->view('organisateur/connexion');
-        } else {
-            $idOrganisateur = $organisateur[0]->idOrga;
-            $mailOrganisateur = $_POST['mailOrga'];
-            if (!password_verify($_POST['mdpOrga'], $organisateur[0]->mdpOrga)) {
-                echo "erreur : mauvais mot de passe";
-                $this->load->view('organisateur/connexion');
-            } else {
-                $data['organisateur'] = $organisateur;
-                if ($data['organisateur'] != NULL && password_verify($_POST['mdpOrga'], $organisateur[0]->mdpOrga)) {
-                    $this->session->set_userdata(array('username' => $organisateur));
-                    //var_dump($idOrganisateur);
-                    setcookie('idOrga', $idOrganisateur, time() + 3600, '/');
-                    setcookie('mdpOrga', $mdpOrganisateur, time() + 3600, '/');
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if (!(isset($idLogged))) {
+            $data['organisateur'] = $this->organisateur->selectByMail($_POST['mailOrga']);
+            $organisateur = $data['organisateur'];
 
-                    var_dump($_COOKIE['idOrga']);
-                    $this->index();
+            if ($organisateur == null) {
+                $data['title'] = "connexion";
+                $this->load->view('template/header', $data);
+                $data['typeEvent'] = $this->typeevent->selectAll();
+                $this->load->view('template/navbar', $data);
+                $this->load->view('organisateur/connexion');
+                $this->load->view('template/footer');
+            } else {
+
+                $idOrga = $organisateur[0]->idOrga;
+                if (!password_verify($_POST['mdpOrga'], $organisateur[0]->mdpOrga)) {
+                    echo "erreur : mauvais mot de passe";
+                    $data['title'] = "connexion";
+                    $this->load->view('template/header', $data);
+                    $data['typeEvent'] = $this->typeevent->selectAll();
+                    $this->load->view('template/navbar', $data);
+                    $this->load->view('organisateur/connexion');
+                    $this->load->view('template/footer');
+                } 
+                else {
+
+                    $cstrong = true;
+                    $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+                    $values = array(
+                        'idOrga' => $idOrga,
+                        'token' => $token
+                    );
+                    $this->input->set_cookie('LoginToken', json_encode($values), (60 * 60 * 24 * 7), '', '/', '', null, true);
+                    $this->CookieOrgaModel->setCookie($idOrga, $token);
+                    $data['title'] = 'bienvenue';
+                    $this->load->view('template/header', $data);
+                    $this->load->view('organisateur/navbarO');
+                    $this->load->view('organisateur/accueil');
+                    $this->load->view('template/footer');
                 }
             }
         }
     }
-
+    
     public function deconnexion() {
-        $this->load->helper('cookie');
-        $this->session->unset_userdata('username');
-        setcookie('idOrga', "", 0);
-        setcookie('mdpOrga', "", 0);
-        $data['title'] = "accueil";
-        $data['event']= $this->event->select3byDate();
-        $this->load->view('template/header', $data);
-        $this->load->view('template/navbar');
-        $this->load->view('home',$data);
-        $this->load->view('template/footer');
+        $this->CookieOrgaModel->deleteCookie();
+        redirect();
     }
 
     public function profil() {
-        if (isset($_COOKIE['idOrga'])) {
-            $varid = $this->input->cookie('idOrga');
-            var_dump($varid);
-            if (isset($varid)) {
-                $data['organisateur'] = $this->organisateur->selectById($varid);
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
+                $data['organisateur'] = $this->organisateur->selectById($idLogged);
                 $data['title'] = "votre profil";
                 $this->load->view('template/header', $data);
                 $this->load->view('organisateur/navbarO');
                 $this->load->view('organisateur/profil', $data);
                 $this->load->view('template/footer');
             }
-        } else {
+        else {
             $data['title'] = "connexion";
             $this->load->view('template/header', $data);
             $this->load->view('template/navbar');
@@ -111,10 +121,9 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function modifier_profil() {
 
-        if (isset($_COOKIE['idOrga'])) {
-            $varid = $this->input->cookie('idOrga');
-            var_dump($varid);
-            $data['organisateur'] = $this->organisateur->selectById($varid);
+            $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
+            $data['organisateur'] = $this->organisateur->selectById($idLogged);
             $mdp = $data['organisateur'][0]->mdpOrga;
             $id = $data['organisateur'][0]->idOrga;
             $varmail = $data['organisateur'][0]->mailOrga;
@@ -134,7 +143,7 @@ class OrganisateurCtrl extends CI_Controller {
                     "telOrga" => htmlspecialchars($_POST['telOrga'])
                 );
 
-                $this->organisateur->update($varid, $data);
+                $this->organisateur->update($idLogged, $data);
                 $data['organisateur'] = $this->organisateur->selectByMail($varmail);
                 $data['message'] = "Votre profil organisateur a été modifié avec succès";
                 $data['title'] = "accueil";
@@ -147,14 +156,14 @@ class OrganisateurCtrl extends CI_Controller {
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
             $this->load->view('errors/erreur_formulaire', $data);
-            $this->load->view('organisateur/connexion');
+            redirect();
         }
     }
 
     public function mes_events() {
-        if (isset($_COOKIE['idOrga'])) {
-            $varidorga = $this->input->cookie('idOrga');
-            $data['event'] = $this->event->selectByIdOrga($varidorga);
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
+            $data['event'] = $this->event->selectByIdOrga($idLogged);
             $data['title'] = 'Mes événements';
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
@@ -172,11 +181,13 @@ class OrganisateurCtrl extends CI_Controller {
     }
 
     public function creation_event() {
-        if (isset($_COOKIE['idOrga'])) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
             $data['title'] = "créer son événement";
+            $data['typeEvent']=$this->typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
-            $this->load->view('organisateur/creation_event');
+            $this->load->view('organisateur/creation_event',$data);
             $this->load->view('template/footer');
         } else {
             $data['title'] = "connexion";
@@ -188,9 +199,11 @@ class OrganisateurCtrl extends CI_Controller {
     }
 
     public function modification_event($idE) {
-        if (isset($_COOKIE['idOrga'])) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
             $data['event'] = $this->event->selectById($idE);
-            $data['title'] = "modifier son événements";
+            $data['title'] = "modifier son événement";
+            $data['typeEvent']=$this->typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/modification_event', $data);
@@ -207,7 +220,8 @@ class OrganisateurCtrl extends CI_Controller {
     public function create_event() {
 
         $this->load->library('form_validation');
-        if (isset($_COOKIE['idOrga'])) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
             $config = array(
                 'upload_path' => "./assets/image/Event",
                 'allowed_types' => "gif|jpg|png|jpeg|pdf",
@@ -228,7 +242,6 @@ class OrganisateurCtrl extends CI_Controller {
             } else {
                 $file_data = $this->upload->data();
                 var_dump($file_data);
-                $varid = (int) ($this->input->cookie('idOrga'));
                 $data = array(
                     'nomEvent' => htmlspecialchars($_POST['nomEvent']),
                     "dateDebut" => htmlspecialchars($_POST['dateDebut']),
@@ -236,12 +249,12 @@ class OrganisateurCtrl extends CI_Controller {
                     "lieu" => htmlspecialchars($_POST['lieu']),
                     "description" => htmlspecialchars($_POST['description']),
                     "idType" => htmlspecialchars($_POST['idType']),
-                    "idOrga" => htmlspecialchars($varid),
+                    "idOrga" => htmlspecialchars($idLogged),
                     "imageEvent" => htmlspecialchars($file_data['file_name'])
                 );
 
                 $this->event->insert($data);
-                $data['message'] = "erreur : nouvel événements créé!";
+                $data['message'] = "Nouvel événements créé!";
                 $this->load->view('errors/validation_formulaire', $data);
                 $this->mes_events();
             }
@@ -257,13 +270,15 @@ class OrganisateurCtrl extends CI_Controller {
     }
 
     public function modifier_event($idE) {
-        if (isset($_COOKIE['idOrga'])) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
             $data = array(
                 "nomEvent" => htmlspecialchars($_POST['nomEvent']),
                 "dateDebut" => htmlspecialchars($_POST['dateDebut']),
                 "dateFin" => htmlspecialchars($_POST['dateFin']),
                 "lieu" => htmlspecialchars($_POST['lieu']),
                 "description" => htmlspecialchars($_POST['description']),
+                "idType"=> htmlspecialchars($_POST['idType'])
             );
 
             $this->event->update($idE, $data);
@@ -282,13 +297,21 @@ class OrganisateurCtrl extends CI_Controller {
     }
 
     public function supprimer_benevole($idE, $idB) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
         $this->participer->delete($idE, $idB);
         $data['message'] = "inscription supprimée";
         $this->load->view('errors/validation_formulaire', $data);
         $this->afficher_benevoles($idE);
+        }
+        else{
+            redirect();
+        }
     }
 
     public function afficher_benevoles($idE) {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))){
         $data['benevoles'] = $this->participer->selectParticipant($idE);
         $data['nameEvent'] = $this->event->getName($idE);
         $data['title'] = "participants";
@@ -296,11 +319,9 @@ class OrganisateurCtrl extends CI_Controller {
         $this->load->view('organisateur/navbarO');
         $this->load->view('organisateur/liste_benevoles', $data);
         $this->load->view('template/footer');
+        }
     }
 
-    public function update_mdp() {
-        
-    }
 
     public function supprimer_event($idE) {
         $this->event->delete($idE);

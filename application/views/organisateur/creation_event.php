@@ -26,6 +26,18 @@
                 <label class="control-label"><h5><strong>Nom de votre événement</h5></strong></label>
                 <input type="text" class="form-control" name="nomEvent" placeholder="Nom" value="" size="50" required /> 
             </div>
+
+            <div  class="form-group">
+
+                <label class="control-label"><h5><strong>Type d'événement </h5></strong></label>
+                <select name ="idType" required>
+                    <?php foreach ($typeEvent as $type) { ?>        
+                        <option value="<?php echo $type->idType; ?>"><?php echo $type->descriptionType; ?></option>
+                    <?php } ?>
+                </select>
+
+            </div>
+
             <div class="form-group">
                 <label class="control-label"><h5><strong>Affiche</h5></strong></label>
                 <input type="file" class="form-control" name="imageEvent" value="" size="50" required/>
@@ -44,20 +56,17 @@
                 <label class="control-label"><h5><strong>Lieu</h5></strong></label>
                 <input type="text" class="form-control" name="lieu" value="" placeholder="lieu" size="50" required/>
             </div>
-            
-            
+
+
             <div class="form-group">
                 <label class="control-label"><h5><strong>Description</h5></strong></label>
-                <input type="text" class="form-control" name="description" value="" placeholder="lieu" size="50" required/>
-            </div>
-            
-            <div class="form-group">
-                <label class="control-label"><h5><strong>IdType</h5></strong></label>
-                <h3>1 ou 2</h3>
-                <input type="text" class="form-control" name="idType" value="" placeholder="idType" size="50" required/>
+                <input type="text" class="form-control" name="description" value="" placeholder="description" size="300" required/>
             </div>
 
-            
+
+            <br>
+
+
 
 
 

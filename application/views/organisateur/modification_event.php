@@ -14,14 +14,23 @@
 
                 <br>
                 <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-                <?php echo form_open('OrganisateurCtrl/modifier_event/'. $event[0]->idEvent); ?>
+                <?php echo form_open('OrganisateurCtrl/modifier_event/' . $event[0]->idEvent); ?>
 
                 <div class="form-group">
                     <label class="control-label">Nom</label>
                     <input type="text" class="form-control" name="nomEvent" value="<?php echo $event[0]->nomEvent; ?>" size="30" required/> 
-                    <h6 style="color:red;"</h6>
-                </div>
 
+                </div>
+                <div  class="form-group">
+
+                    <label class="control-label"><h5><strong>Type d'événement </h5></strong></label>
+                    <select name ="idType" required>
+                        <?php foreach ($typeEvent as $type) { ?>        
+                            <option value="<?php echo $type->idType; ?>"><?php echo $type->descriptionType; ?></option>
+                        <?php } ?>
+                    </select>
+
+                </div>
                 <div class="form-group">
                     <label class="control-label"><strong>Affiche</strong></label>
                     <input type="file" class="form-control" name="imageEvent" value="<?php echo $event[0]->imageEvent; ?>" size="50"/>
@@ -43,12 +52,12 @@
                 </div>    
                 <div class="form-group">
                     <label class="control-label">Description</label>
-                    <input type="text" class="form-control" name="description" value="<?php echo $event[0]->description; ?>" size="100" required/>
+                    <input type="text" class="form-control" name="description" value="<?php echo $event[0]->description; ?>" size="300" required/>
                 </div>
                 <br>
                 <div class="text-center"><input class="btn btn-primary btn-success btn-block" type="submit" value="Modifier" /></div>
-                
-                
+
+
                 <div>
                     <p><a href="<?php echo base_url("index.php/OrganisateurCtrl/supprimer_event/" . $event[0]->idEvent); ?>">Supprimer</a></p>
                 </div>              

@@ -21,8 +21,7 @@ class AccueilCtrl extends CI_Controller {
     }
 
     public function connexion_benevole() {
-        $idLogged = $this->CookieModel->isLoggedIn();
-        var_dump ($idLogged);
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged)))
             {
             redirect('BenevoleCtrl/index');
@@ -38,6 +37,11 @@ class AccueilCtrl extends CI_Controller {
     }
 
     public function inscription_benevole() {
+        $idLogged = $this->CookieBenModel->isLoggedIn();
+        if ((isset($idLogged)))
+            {
+            redirect('BenevoleCtrl/index');
+        }
         $this->load->model('benevole');
         $data['title'] = "inscription bénévole";
         $this->load->view('template/header', $data);
@@ -48,6 +52,11 @@ class AccueilCtrl extends CI_Controller {
     }
 
     public function connexion_organisateur() {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged)))
+            {
+            redirect('OrganisateurCtrl/index');
+        }
         $this->load->model('benevole');
         $data['title'] = "connexion organisateur";
         $this->load->view('template/header', $data);
@@ -58,6 +67,11 @@ class AccueilCtrl extends CI_Controller {
     }
 
     public function inscription_organisateur() {
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged)))
+            {
+            redirect('OrganisateurCtrl/index');
+        }
         $this->load->model('benevole');
         $data = "inscription Organisateur";
         $this->load->view('template/header', $data);

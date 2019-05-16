@@ -1,14 +1,14 @@
 <?php
-class CookieModel extends CI_Model
+class CookieOrgaModel extends CI_Model
 {
-    public function setCookie($idUser, $token)
+    public function setCookie($idOrga, $token)
     {
         $token = password_hash($token, PASSWORD_DEFAULT);
         $data = array(
-            'idUser' => $idUser,
+            'idOrga' => $idOrga,
             'token' => $token
         );
-        $this->db->insert('userTokens', $data);
+        $this->db->insert('orgatokens', $data);
     }
     public function isLoggedIn()
     {
@@ -17,12 +17,12 @@ class CookieModel extends CI_Model
         
         if (isset($cookie)) {
             $token = $data['token'];
-            $idUser = $data['idUser'];
-            $query = $this->db->query('SELECT token FROM userTokens WHERE idUser = ?', $idUser);
+            $idOrga = $data['idOrga'];
+            $query = $this->db->query('SELECT token FROM OrgaTokens WHERE idOrga = ?', $idOrga);
             $result = $query->result_array();
             foreach ($result as $t) {
                 if (password_verify($token, $t['token'])) {
-                    return $idUser;
+                    return $idOrga;
                 } else {
                     //DO NOTHING
                 }
@@ -36,13 +36,13 @@ class CookieModel extends CI_Model
         $data = json_decode($cookie, true);
         if (isset($cookie)) {
             $token = $data['token'];
-            $idUser = $data['idUser'];
-            $query = $this->db->query('SELECT token FROM userTokens WHERE idUser = ?', $idUser);
+            $idOrga = $data['idOrga'];
+            $query = $this->db->query('SELECT token FROM orgaTokens WHERE idOrga = ?', $idOrga);
             $result = $query->result_array();
             foreach ($result as $t) {
                 if (password_verify($token, $t['token'])) {
                     delete_cookie('LoginToken');
-                    $this->db->delete('userTokens', array('token' => $t['token']));
+                    $this->db->delete('orgaTokens', array('token' => $t['token']));
                 }
             }
         }

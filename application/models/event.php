@@ -99,6 +99,7 @@ class event extends CI_Model {
                 ->set('dateFin', $data['dateFin'])
                 ->set('lieu', $data['lieu'])
                 ->set('description', $data['description'])
+                ->set('idType', $data['idType'])
                 ->where('idEvent', $id)
                 ->update($this->table);
     }

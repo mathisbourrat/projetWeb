@@ -3,7 +3,7 @@
 class BenevoleCtrl extends CI_Controller {
 
     public function index() {
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
             $data['title'] = 'bienvenue';
             $this->load->view('template/header', $data);
@@ -20,7 +20,7 @@ class BenevoleCtrl extends CI_Controller {
     }
 
     public function profil() {
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         var_dump($idLogged);
         if ((isset($idLogged))) {
 
@@ -66,57 +66,10 @@ class BenevoleCtrl extends CI_Controller {
         }
     }
 
-    /* public function connexion() {
-      $data['benevole'] = $this->benevole->selectByMail($_POST['mailBen']);
-      $benevole = $data['benevole'];
-
-      if ($benevole == null) {
-      $data['title'] = "connexion";
-      $this->load->view('template/header', $data);
-      $data['typeEvent']=$this->typeevent->selectAll();
-      $this->load->view('template/navbar',$data);
-      $this->load->view('organisateur/connexion');
-      $this->load->view('template/footer');
-      $this->load->view('benevole/connexion');
-      } else {
-
-      $idBenevole = $benevole[0]->idBen;
-      if (!password_verify($_POST['mdpBen'], $benevole[0]->mdpBen)) {
-      echo "erreur : mauvais mot de passe";
-      $data['title'] = "connexion";
-      $this->load->view('template/header', $data);
-      $data['typeEvent']=$this->typeevent->selectAll();
-      $this->load->view('template/navbar',$data);
-      $this->load->view('organisateur/connexion');
-      $this->load->view('template/footer');
-      $this->load->view('benevole/connexion');
-      echo "chatte";
-      } else {
-      $data['benevole'] = $benevole;
-      $mdpBenevole = $benevole[0]->mdpBen;
-      if ($data['benevole'] != NULL && password_verify($_POST['mdpBen'], $benevole[0]->mdpBen)) {
-      $this->session->set_userdata(array('benevole' => $benevole));
-      setcookie('idBen', $idBenevole, time() + 3600, '/');
-      setcookie('mdpBen', $mdpBenevole, time() + 3600, '/');
-
-      //var_dump($_COOKIE['idBen']);
-      $this->index();
-      }
-      }
-      }
-      } */
-
     public function connexion() {
-        $this->load->model('CookieModel');
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $this->load->model('CookieBenModel');
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if (!(isset($idLogged))) {
-            /* $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-              $this->form_validation->set_rules('mdp', 'Password', 'required|min_length[7]');
-              if ($this->form_validation->run() === FALSE) {
-              $this->load->view('template/header');
-              $this->load->view('benevole/connexion');
-              $this->load->view('templates/footer'); */
-
             $data['benevole'] = $this->benevole->selectByMail($_POST['mailBen']);
             $benevole = $data['benevole'];
 
@@ -127,7 +80,6 @@ class BenevoleCtrl extends CI_Controller {
                 $this->load->view('template/navbar', $data);
                 $this->load->view('benevole/connexion');
                 $this->load->view('template/footer');
-                $this->load->view('benevole/connexion');
             } else {
 
                 $idBenevole = $benevole[0]->idBen;
@@ -137,11 +89,10 @@ class BenevoleCtrl extends CI_Controller {
                     $this->load->view('template/header', $data);
                     $data['typeEvent'] = $this->typeevent->selectAll();
                     $this->load->view('template/navbar', $data);
-                    $this->load->view('organisateur/connexion');
-                    $this->load->view('template/footer');
                     $this->load->view('benevole/connexion');
-                    echo "chatte";
-                } else {
+                    $this->load->view('template/footer');                    
+                } 
+                else {
 
                     $cstrong = true;
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
@@ -150,7 +101,7 @@ class BenevoleCtrl extends CI_Controller {
                         'token' => $token
                     );
                     $this->input->set_cookie('LoginToken', json_encode($values), (60 * 60 * 24 * 7), '', '/', '', null, true);
-                    $this->CookieModel->setCookie($idBenevole, $token);
+                    $this->CookieBenModel->setCookie($idBenevole, $token);
                     $data['title'] = 'bienvenue';
                     $this->load->view('template/header', $data);
                     $this->load->view('benevole/navbarB');
@@ -162,8 +113,8 @@ class BenevoleCtrl extends CI_Controller {
     }
 
     public function deconnexion() {
-        $this->load->model('CookieModel');
-        $this->CookieModel->deleteCookie();
+        $this->load->model('CookieBenModel');
+        $this->CookieBenModel->deleteCookie();
         redirect();
     }
 
@@ -182,7 +133,7 @@ class BenevoleCtrl extends CI_Controller {
 
     public function modifier() {
 
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
 
             $data['benevole'] = $this->benevole->selectById($idLogged);
@@ -241,7 +192,7 @@ class BenevoleCtrl extends CI_Controller {
     }
 
     public function participer($idEvent) {
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
             $this->load->model('participer');
             $participation = $this->participer->selectByKey($idEvent, $idLogged);
@@ -271,7 +222,7 @@ class BenevoleCtrl extends CI_Controller {
     }
 
     public function liste_participation() {
-        $idLogged = $this->CookieModel->isLoggedIn();
+        $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
             $data['event'] = $this->participer->selectEvent($idLogged);
             $data['title'] = 'Mes participations';
