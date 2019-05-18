@@ -1,6 +1,6 @@
 <div class="container">
     <p>
-        &copy; Awesome website
+        &copy; Share-your-event</p>
     </p>
 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

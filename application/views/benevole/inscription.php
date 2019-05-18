@@ -9,15 +9,17 @@
 
 <div class="container login-container2" align="left">
     <div class="row">
-        <div class="col-md-6 login-form-3"><br>
+        
+        <div class="col-md-6 col-md-offset-3 login-form-3 text-center">
             <?php echo form_open('BenevoleCtrl/inscription'); ?>
 
-                <br>
+                
                     <div class="text-center">
-                    <h3>Inscription Benevole</h3>
+                    <h2>Inscription Benevole</h2>
                     </div>
 
-                    <br>					
+                    
+                <div class="my-register">					
 						
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre nom</h5></strong></label>
@@ -31,26 +33,26 @@
                     
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre mail</h5></strong></label>
-                        <input type="email" class="form-control" name="mailBen" value="" size="50" placeholder="Email" required valid_email/>
+                        <input type="email" class="form-control" name="mailBen" value="" size="50" placeholder="Email" required/>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre mot de passe</h5></strong></label>
-                        <input type="password" class="form-control" name="mdpBen" value="" placeholder="Mot de passe" size="50" required/>
+                        <input type="password" class="form-control" name="mdpBen" value=""  minlength="8" size="30" placeholder="Mot de passe" required/>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Confirmation de votre mot de passe</h5></strong></label>
-                        <input type="password" class="form-control" name="mdpBen2" value="" placeholder="Mot de passe" size="50" required/>
+                        <input type="password" class="form-control" name="mdpBen2" value="" minlength="8" placeholder="Mot de passe" size="30" required/>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre telephone </h5></strong></label>
-                        <input type="text" class="form-control" name="telBen" value="" placeholder="telephone" size="30" required/>
+                        <input type="tel" class="form-control" name="telBen" value=""  pattern="0[0-9]{9}" placeholder="Telephone"  required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre code postal</h5></strong></label>
-                        <input type="text" class="form-control" name="codePBen" value="" placeholder="Code Postal" size="30" required/>
+                        <input type="tel" class="form-control" name="codePBen" value="" pattern="[0-9]{5}" placeholder="Code Postal" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label"><h5><strong>Votre ville</h5></strong></label>
@@ -61,17 +63,13 @@
                         <input type="text" class="form-control" name="adresseBen" value="" placeholder="adresse" size="50" required/>
                     </div>
 		
-                    <div class="text-center"><input class="btnSubmit" type="submit" value="Inscription" /></div>
+                    <div class="text-center"><input class="btnSubmit btn-success btn-default" type="submit" value="Inscription" /></div>
 				
-
-            <br>
-            <br>
-
 
 
             </div>
         
     </div>
 </div>
-
+</div>
 

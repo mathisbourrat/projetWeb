@@ -1,24 +1,29 @@
-<div class="container login-container">
+<div class="container text-center">
             <div class="row">
-                <div class="col-md-6 login-form-1">
-                    <h3>Je me connecte</h3>
+                
+                <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 login-form-1">
+                    
+                    <h2>Connexion à mon espace organisateur</h2>
+                    <div class="my-login">
                     <?php echo form_open('OrganisateurCtrl/connexion', array('method'=>'post'));?>
                     <?php echo isset($error) ? $error : '';?>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="mailOrga" placeholder="Votre adresse email" value="" size="50" required /> 
+                            <input type="email" class="form-control" name="mailOrga" placeholder="Votre adresse email" value="" size="50" required /> 
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control"  name="mdpOrga" placeholder="Votre mot de passe" value="" size="30" required />
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btnSubmit" value="Se connecter" />
+                            <input type="submit" class="btnSubmit btn-success btn-default" value="Se connecter" />
                         </div>
                         <div class="form-group">
-                            <a href="#" class="ForgetPwd">Mot de passe oublié</a>
+                            <a href="<?php echo base_url("index.php/AccueilCtrl/inscription_organisateur");?>" class="ForgetPwd">Rejoins nous!</a>
                         </div>
                     
 			
                     <?php echo form_close(); ?>
                 </div>
-            </div>
+                    </div>
+            
+                </div>
  </div>

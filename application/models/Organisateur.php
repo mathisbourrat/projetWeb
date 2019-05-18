@@ -65,8 +65,16 @@ class Organisateur extends CI_Model {
                 ->set('villeOrga', $data['villeOrga'])
                 ->set('adresseOrga', $data['telOrga'])
                 ->where('idOrga', $id)
-		->update($this->table);
+		->update($this->table); 
 	}
+        
+        public function update_psw($id, $psw){
+            
+		$this->load->database();
+		$this->db->set('mdpOrga', $psw)
+                ->where('idOrga', $id)
+		->update($this->table);
+        }
 
     public function delete($id){
             $this->load->database();

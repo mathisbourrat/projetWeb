@@ -28,7 +28,7 @@ class Benevole extends CI_Model {
                         ->get()
                         ->result();
     }
-    
+
     public function selectByMail($mail) {
 
         $this->load->database();
@@ -53,11 +53,11 @@ class Benevole extends CI_Model {
                 ->set('mdpBen', $data['mdpBen'])
                 ->insert($this->table);
     }
-    
+
     public function update($id, $data) {
 
-		$this->load->database();
-		$this->db->set('nomBen', $data['nomBen'])
+        $this->load->database();
+        $this->db->set('nomBen', $data['nomBen'])
                 ->set('prenomBen', $data['prenomBen'])
                 ->set('mailBen', $data['mailBen'])
                 ->set('telBen', $data['telBen'])
@@ -66,16 +66,20 @@ class Benevole extends CI_Model {
                 ->set('adresseBen', $data['telBen'])
                 ->set('mdpBen', $data['mdpBen'])
                 ->where('idBen', $id)
-		->update($this->table);
-	}
+                ->update($this->table);
+    }
 
-    public function delete($id){
-            $this->load->database();
-            return $this->db->where('idOrga',$id) ->delete($this->table);
-    	}
-        
-    
-        
-        
+    public function update_psw($id, $psw) {
+
+        $this->load->database();
+        $this->db->set('mdpBen', $psw)
+                ->where('idBen', $id)
+                ->update($this->table);
+    }
+
+    public function delete($id) {
+        $this->load->database();
+        return $this->db->where('idOrga', $id)->delete($this->table);
+    }
 
 }

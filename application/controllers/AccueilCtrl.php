@@ -75,15 +75,18 @@ class AccueilCtrl extends CI_Controller {
     public function liste_prochain_event() {
         $this->load->library('pagination');
         $this->load->library('table');
-        $this->db->select('nomEvent, dateDebut, dateFin, lieu');
+        
         $data['typeEvent'] = $this->Typeevent->selectAll();
+        $this->db->select('nomEvent, dateDebut, dateFin, lieu');
         $data['base_url'] = base_url('index.php/AccueilCtrl/liste_prochain_event');
         $data['total_rows'] = $this->db->get('event')->num_rows();
         $data['per_page'] = 5;
         $data['num_links'] = 3;
+        //$data['full_tag_open']='<div class="pagination">';
+        //$data['full_tag_close']='</div>';
         $data['records'] = $this->db->select('nomEvent, dateDebut, dateFin, lieu')
                 ->get('event',$data['per_page'],$this->uri->segment(3));
-        
+       
         $this->pagination->initialize($data);
 
         $data['title'] = 'Prochains événements';

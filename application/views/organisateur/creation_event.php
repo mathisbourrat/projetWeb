@@ -17,7 +17,7 @@
 
             <br>
             <div class="text-center">
-                <h3>Créer Votre événements!</h3>
+                <h3>Créer Votre événement!</h3>
             </div>
 
             <br>					

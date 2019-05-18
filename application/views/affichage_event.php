@@ -3,7 +3,7 @@
         <div>
             <h1><?php echo $event[0]->nomEvent; ?></h1>
         </div>
-        <div class="test1234">
+       
         <div class="col-lg-6">
             
 
@@ -16,6 +16,6 @@
             
 
         </div>
-          </div>
+         
     </div>
 </div>

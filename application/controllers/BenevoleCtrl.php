@@ -90,9 +90,8 @@ class BenevoleCtrl extends CI_Controller {
                     $data['typeEvent'] = $this->Typeevent->selectAll();
                     $this->load->view('template/navbar', $data);
                     $this->load->view('benevole/connexion');
-                    $this->load->view('template/footer');                    
-                } 
-                else {
+                    $this->load->view('template/footer');
+                } else {
 
                     $cstrong = true;
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
@@ -118,7 +117,6 @@ class BenevoleCtrl extends CI_Controller {
         redirect();
     }
 
-
     public function modifier() {
 
         $idLogged = $this->CookieBenModel->isLoggedIn();
@@ -133,35 +131,37 @@ class BenevoleCtrl extends CI_Controller {
                 $data['message'] = "erreur : Vous ne pouvez pas changer votre adresse email";
                 $this->load->view('errors/erreur_formulaire', $data);
                 $this->index();
-            } else if ($_POST['mdpBen'] == $_POST['mdpBen']) {
-                $data = array(
-                    "nomBen" => htmlspecialchars($_POST['nomBen']),
-                    "prenomBen" => htmlspecialchars($_POST['prenomBen']),
-                    "mailBen" => htmlspecialchars($_POST['mailBen']),
-                    "mdpBen" => htmlspecialchars(crypt($_POST['mdpBen'], 'md5')),
-                    "adresseBen" => htmlspecialchars($_POST['adresseBen']),
-                    "codePBen" => htmlspecialchars($_POST['codePBen']),
-                    "villeBen" => htmlspecialchars($_POST['villeBen']),
-                    "telBen" => htmlspecialchars($_POST['telBen'])
-                );
-
-                $this->Benevole->update($idLogged, $data);
-                $data['message'] = "Votre profil benevole a été modifié avec succès";
-                $data['title'] = "accueil";
-                $this->load->view('errors/validation_formulaire', $data);
-                $this->load->view('template/header', $data);
-                $this->load->view('benevole/navbarB');
-                $this->load->view('benevole/accueil');
-                $this->load->view('template/footer');
-            } else {
-                $data['message'] = "erreur : Votre mot de passe n'est pas correct, si vous souhaitez modifier votre mot de passe cliquez sur le bouton en bas de page";
-                $this->load->view('errors/erreur_formulaire', $data);
-                $data['title'] = "votre profil";
-                $this->load->view('template/header', $data);
-                $this->load->view('benevole/navbarB');
-                $this->load->view('benevole/profil');
-                $this->load->view('template/footer');
+            } 
+            else {
+                if (isset($_POST['change_psw'])) {
+                    if ($_POST['mdpBen'] == $_POST['mdp2Ben']) {
+                        $psw = htmlspecialchars(crypt($_POST['mdpBen'], 'md5'));
+                        $this->Organisateur->update_psw($idLogged, $psw);
+                    } else {
+                        echo "mots de passe different";
+                    }
+                }
             }
+            $data = array(
+                "nomBen" => htmlspecialchars($_POST['nomBen']),
+                "prenomBen" => htmlspecialchars($_POST['prenomBen']),
+                "mailBen" => htmlspecialchars($_POST['mailBen']),
+                "mdpBen" => htmlspecialchars(crypt($_POST['mdpBen'], 'md5')),
+                "adresseBen" => htmlspecialchars($_POST['adresseBen']),
+                "codePBen" => htmlspecialchars($_POST['codePBen']),
+                "villeBen" => htmlspecialchars($_POST['villeBen']),
+                "telBen" => htmlspecialchars($_POST['telBen'])
+            );
+
+            $this->Benevole->update($idLogged, $data);
+            $data['message'] = "Votre profil benevole a été modifié avec succès";
+            $data['title'] = "accueil";
+            $this->load->view('errors/validation_formulaire', $data);
+            $this->load->view('template/header', $data);
+            $this->load->view('benevole/navbarB');
+            $this->load->view('benevole/accueil');
+            $this->load->view('template/footer');
+        
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
             $this->load->view('errors/erreur_formulaire', $data);
@@ -212,7 +212,7 @@ class BenevoleCtrl extends CI_Controller {
     public function liste_participation() {
         $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
-            $data['event'] = $this->participer->selectEvent($idLogged);
+            $data['event'] = $this->Participer->selectEvent($idLogged);
             $data['title'] = 'Mes participations';
             $this->load->view('template/header', $data);
             $this->load->view('benevole/navbarB');

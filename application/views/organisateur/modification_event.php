@@ -54,20 +54,16 @@
                     <label class="control-label">Description</label>
                     <input type="text" class="form-control" name="description" value="<?php echo $event[0]->description; ?>" size="300" required/>
                 </div>
-                <br>
-                <div class="text-center"><input class="btn btn-primary btn-success btn-block" type="submit" value="Modifier" /></div>
+                
+                <input class="btn btn-primary btn-success btn-block" type="submit" value="Modifier" />
+                
 
 
                 <div>
-                    <p><a href="<?php echo base_url("index.php/OrganisateurCtrl/supprimer_event/" . $event[0]->idEvent); ?>">Supprimer</a></p>
-                </div>              
-                <br>
-
-
-                <br>
-
-
-                <br>
+                    <a href="<?php echo base_url("index.php/OrganisateurCtrl/supprimer_event/" . $event[0]->idEvent); ?>" class="btn btn-primary btn-danger btn-block" 
+                                                onclick="return confirm('la suppression ne peut être annulée après cette page')">Supprimer</a>
+                    </div>              
+                
 
             </div>
         </div>

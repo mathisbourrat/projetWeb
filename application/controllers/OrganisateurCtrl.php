@@ -5,7 +5,7 @@ class OrganisateurCtrl extends CI_Controller {
     public function index() {
 
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $data['title'] = 'bienvenue';
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
@@ -25,7 +25,7 @@ class OrganisateurCtrl extends CI_Controller {
         $this->load->helper('form', 'url');
         $this->load->library('form_validation');
         $this->load->view('organisateur/inscription');
-        
+
         if (null != $this->Organisateur->selectByMail($_POST['mailOrga'])) {
             echo "erreur : cet email n'est pas disponible";
             $this->load->view('organisateur/inscription');
@@ -49,7 +49,6 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-        
     public function connexion() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if (!(isset($idLogged))) {
@@ -74,8 +73,7 @@ class OrganisateurCtrl extends CI_Controller {
                     $this->load->view('template/navbar', $data);
                     $this->load->view('organisateur/connexion');
                     $this->load->view('template/footer');
-                } 
-                else {
+                } else {
 
                     $cstrong = true;
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
@@ -94,7 +92,7 @@ class OrganisateurCtrl extends CI_Controller {
             }
         }
     }
-    
+
     public function deconnexion() {
         $this->CookieOrgaModel->deleteCookie();
         redirect();
@@ -102,15 +100,14 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function profil() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
-                $data['organisateur'] = $this->Organisateur->selectById($idLogged);
-                $data['title'] = "votre profil";
-                $this->load->view('template/header', $data);
-                $this->load->view('organisateur/navbarO');
-                $this->load->view('organisateur/profil', $data);
-                $this->load->view('template/footer');
-            }
-        else {
+        if ((isset($idLogged))) {
+            $data['organisateur'] = $this->Organisateur->selectById($idLogged);
+            $data['title'] = "votre profil";
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/profil', $data);
+            $this->load->view('template/footer');
+        } else {
             $data['title'] = "connexion";
             $this->load->view('template/header', $data);
             $this->load->view('template/navbar');
@@ -122,8 +119,8 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function modifier_profil() {
 
-            $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        $idLogged = $this->CookieOrgaModel->isLoggedIn();
+        if ((isset($idLogged))) {
             $data['organisateur'] = $this->Organisateur->selectById($idLogged);
             $mdp = $data['organisateur'][0]->mdpOrga;
             $id = $data['organisateur'][0]->idOrga;
@@ -133,27 +130,38 @@ class OrganisateurCtrl extends CI_Controller {
                 $data['message'] = "erreur : Vous ne pouvez pas changer votre adresse email";
                 $this->load->view('errors/erreur_formulaire', $data);
                 $this->index();
-            } else {
-                $data = array(
-                    "nomOrga" => htmlspecialchars($_POST['nomOrga']),
-                    "prenomOrga" => htmlspecialchars($_POST['prenomOrga']),
-                    "mailOrga" => htmlspecialchars($_POST['mailOrga']),
-                    "adresseOrga" => htmlspecialchars($_POST['adresseOrga']),
-                    "codePOrga" => htmlspecialchars($_POST['codePOrga']),
-                    "villeOrga" => htmlspecialchars($_POST['villeOrga']),
-                    "telOrga" => htmlspecialchars($_POST['telOrga'])
-                );
-
-                $this->organisateur->update($idLogged, $data);
-                $data['organisateur'] = $this->Organisateur->selectByMail($varmail);
-                $data['message'] = "Votre profil organisateur a été modifié avec succès";
-                $data['title'] = "accueil";
-                $this->load->view('errors/validation_formulaire', $data);
-                $this->load->view('template/header', $data);
-                $this->load->view('organisateur/navbarO');
-                $this->load->view('organisateur/accueil');
-                $this->load->view('template/footer');
+            } else
+                   
+            if (isset($_POST['change_psw'])) {
+                if ($_POST['mdpOrga'] == $_POST['mdp2Orga']) {
+                    $psw = htmlspecialchars(crypt($_POST['mdp2Orga'],'md5'));
+                    $this->Organisateur->update_psw($idLogged,$psw);
+                }
+                else{
+                    echo "mots de passe different";
+                    
+                }
             }
+
+            $data = array(
+                "nomOrga" => htmlspecialchars($_POST['nomOrga']),
+                "prenomOrga" => htmlspecialchars($_POST['prenomOrga']),
+                "mailOrga" => htmlspecialchars($_POST['mailOrga']),
+                "adresseOrga" => htmlspecialchars($_POST['adresseOrga']),
+                "codePOrga" => htmlspecialchars($_POST['codePOrga']),
+                "villeOrga" => htmlspecialchars($_POST['villeOrga']),
+                "telOrga" => htmlspecialchars($_POST['telOrga'])
+            );
+
+            $this->Organisateur->update($idLogged, $data);
+            $data['organisateur'] = $this->Organisateur->selectByMail($varmail);
+            $data['message'] = "Votre profil organisateur a été modifié avec succès";
+            $data['title'] = "accueil";
+            $this->load->view('errors/validation_formulaire', $data);
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/accueil');
+            $this->load->view('template/footer');
         } else {
             $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
             $this->load->view('errors/erreur_formulaire', $data);
@@ -163,7 +171,7 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function mes_events() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $data['event'] = $this->Event->selectByIdOrga($idLogged);
             $data['title'] = 'Mes événements';
             $this->load->view('template/header', $data);
@@ -183,12 +191,12 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function creation_event() {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $data['title'] = "créer son événement";
-            $data['typeEvent']=$this->Typeevent->selectAll();
+            $data['typeEvent'] = $this->Typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
-            $this->load->view('organisateur/creation_event',$data);
+            $this->load->view('organisateur/creation_event', $data);
             $this->load->view('template/footer');
         } else {
             $data['title'] = "connexion";
@@ -201,10 +209,10 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function modification_event($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $data['event'] = $this->Event->selectById($idE);
             $data['title'] = "modifier son événement";
-            $data['typeEvent']=$this->Typeevent->selectAll();
+            $data['typeEvent'] = $this->Typeevent->selectAll();
             $this->load->view('template/header', $data);
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/modification_event', $data);
@@ -222,7 +230,7 @@ class OrganisateurCtrl extends CI_Controller {
 
         $this->load->library('form_validation');
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $config = array(
                 'upload_path' => "./assets/image/Event",
                 'allowed_types' => "gif|jpg|png|jpeg|pdf",
@@ -272,14 +280,14 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function modifier_event($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
+        if ((isset($idLogged))) {
             $data = array(
                 "nomEvent" => htmlspecialchars($_POST['nomEvent']),
                 "dateDebut" => htmlspecialchars($_POST['dateDebut']),
                 "dateFin" => htmlspecialchars($_POST['dateFin']),
                 "lieu" => htmlspecialchars($_POST['lieu']),
                 "description" => htmlspecialchars($_POST['description']),
-                "idType"=> htmlspecialchars($_POST['idType'])
+                "idType" => htmlspecialchars($_POST['idType'])
             );
 
             $this->Event->update($idE, $data);
@@ -299,30 +307,28 @@ class OrganisateurCtrl extends CI_Controller {
 
     public function supprimer_benevole($idE, $idB) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
-        $this->participer->delete($idE, $idB);
-        $data['message'] = "inscription supprimée";
-        $this->load->view('errors/validation_formulaire', $data);
-        $this->afficher_benevoles($idE);
-        }
-        else{
+        if ((isset($idLogged))) {
+            $this->participer->delete($idE, $idB);
+            $data['message'] = "inscription supprimée";
+            $this->load->view('errors/validation_formulaire', $data);
+            $this->afficher_benevoles($idE);
+        } else {
             redirect();
         }
     }
 
-    public function afficher_benevoles($idE) {
+    public function liste_benevoles($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))){
-        $data['benevoles'] = $this->participer->selectParticipant($idE);
-        $data['nameEvent'] = $this->Event->getName($idE);
-        $data['title'] = "participants";
-        $this->load->view('template/header', $data);
-        $this->load->view('organisateur/navbarO');
-        $this->load->view('organisateur/liste_benevoles', $data);
-        $this->load->view('template/footer');
+        if ((isset($idLogged))) {
+            $data['benevoles'] = $this->Participer->selectParticipant($idE);
+            $data['nameEvent'] = $this->Event->getName($idE);
+            $data['title'] = "participants";
+            $this->load->view('template/header', $data);
+            $this->load->view('organisateur/navbarO');
+            $this->load->view('organisateur/liste_benevoles', $data);
+            $this->load->view('template/footer');
         }
     }
-
 
     public function supprimer_event($idE) {
         $this->Event->delete($idE);

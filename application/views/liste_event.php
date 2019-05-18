@@ -1,28 +1,27 @@
 <div class="container">
-    <h2>Evénements correspondant à votre recherche</h2>
-    
-
-<div class="panel panel-default">
-  <table class="table">
-      <thead>
-                    <tr>
-                        <th scope="col">Evenement</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Lieu</th>
-                        <th scope="col">Voir</th>
-                    </tr>
-                </thead>
-    <tbody>
-                    <tr>
+    <div class="result"><h1>Evénements correspondants à votre recherche</h1></div>
+    <div class="row">
+        
+        
                         <?php foreach ($event as $item) { ?>
-                            <td><?php echo $item->nomEvent; ?></td>
-                            <td><?php echo $item->dateDebut; ?></td>
-                            <td><?php echo $item->lieu; ?></td>
-                            <td><p><a href="<?php echo base_url("index.php/AccueilCtrl/afficher_event/" . $item->idEvent); ?>">Plus</a></p></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-  </table>
-</div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="thumbnail">
+      <img src="<?php echo base_url("./assets/image/Event/") . $item->imageEvent; ?>" alt="...">
+      <div class="caption">
+        <h3><?php echo $item->nomEvent; ?></h3>
+        <p><?php echo $item->dateDebut; ?></p>
+        <p><a href="<?php echo base_url("index.php/AccueilCtrl/afficher_event/" . $item->idEvent); ?>" class="btn btn-primary" role="button">voir</a> 
+            <a href="<?php echo base_url("index.php/BenevoleCtrl/participer/" . $item->idEvent); ?>" class="btn btn-default" role="button">participer</a></p>
+      </div>
     </div>
-    
+  </div>
+           <?php } ?>
+        
+
+                          
+           
+       
+    </div>
+        
+</div>
+
