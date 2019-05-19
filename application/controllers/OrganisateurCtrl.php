@@ -12,7 +12,6 @@ class OrganisateurCtrl extends CI_Controller {
             $this->load->view('organisateur/accueil');
             $this->load->view('template/footer');
         } else {
-            echo "vous n'êtes plus connecté";
             $data['title'] = 'connexion';
             $this->load->view('template/header', $data);
             $this->load->view('template/navbar');
@@ -81,7 +80,7 @@ class OrganisateurCtrl extends CI_Controller {
                         'idOrga' => $idOrga,
                         'token' => $token
                     );
-                    $this->input->set_cookie('LoginToken', json_encode($values), (60 * 60 * 24 * 7), '', '/', '', null, true);
+                    $this->input->set_cookie('LoginTokenOrga', json_encode($values), (60 * 60 * 24 * 7), '', '/', '', null, true);
                     $this->CookieOrgaModel->setCookie($idOrga, $token);
                     $data['title'] = 'bienvenue';
                     $this->load->view('template/header', $data);
@@ -122,8 +121,6 @@ class OrganisateurCtrl extends CI_Controller {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))) {
             $data['organisateur'] = $this->Organisateur->selectById($idLogged);
-            $mdp = $data['organisateur'][0]->mdpOrga;
-            $id = $data['organisateur'][0]->idOrga;
             $varmail = $data['organisateur'][0]->mailOrga;
 
             if ($varmail != $_POST['mailOrga']) {
@@ -226,96 +223,6 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-    public function create_event() {
-
-        $this->load->library('form_validation');
-        $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))) {
-            $config = array(
-                'upload_path' => "./assets/image/Event",
-                'allowed_types' => "gif|jpg|png|jpeg|pdf",
-                'overwrite' => FALSE,
-                'max_size' => "8192000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-                'max_height' => "1536",
-                'max_width' => "2048",
-                'encrypt_name' => TRUE
-            );
-            $this->load->library('upload', $config);
-
-            if (!($this->upload->do_upload('imageEvent'))) {
-
-                log_message('error', $this->upload->display_errors());
-                $data['message'] = "erreur : la photo n'a pas pu s'importer";
-                $this->load->view('errors/erreur_formulaire', $data);
-                $this->index();
-            } else {
-                $file_data = $this->upload->data();
-                var_dump($file_data);
-                $data = array(
-                    'nomEvent' => htmlspecialchars($_POST['nomEvent']),
-                    "dateDebut" => htmlspecialchars($_POST['dateDebut']),
-                    "dateFin" => htmlspecialchars($_POST['dateFin']),
-                    "lieu" => htmlspecialchars($_POST['lieu']),
-                    "description" => htmlspecialchars($_POST['description']),
-                    "idType" => htmlspecialchars($_POST['idType']),
-                    "idOrga" => htmlspecialchars($idLogged),
-                    "imageEvent" => htmlspecialchars($file_data['file_name'])
-                );
-
-                $this->Event->insert($data);
-                $data['message'] = "Nouvel événements créé!";
-                $this->load->view('errors/validation_formulaire', $data);
-                $this->mes_events();
-            }
-        } else {
-            $data['message'] = "session expirée";
-            $data['title'] = "Connexion";
-            $this->load->view('errors/erreur_formulaire', $data);
-            $this->load->view('template/header', $data);
-            $this->load->view('template/navbar');
-            $this->load->view('organisateur/connexion');
-            $this->load->view('template/footer');
-        }
-    }
-
-    public function modifier_event($idE) {
-        $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))) {
-            $data = array(
-                "nomEvent" => htmlspecialchars($_POST['nomEvent']),
-                "dateDebut" => htmlspecialchars($_POST['dateDebut']),
-                "dateFin" => htmlspecialchars($_POST['dateFin']),
-                "lieu" => htmlspecialchars($_POST['lieu']),
-                "description" => htmlspecialchars($_POST['description']),
-                "idType" => htmlspecialchars($_POST['idType'])
-            );
-
-            $this->Event->update($idE, $data);
-            $data['message'] = "événements modifié avec succès";
-            $data['title'] = "mes événements";
-            $this->load->view('errors/validation_formulaire', $data);
-            $this->load->view('template/header', $data);
-            $this->load->view('organisateur/navbarO');
-            $this->load->view('organisateur/mes_events');
-            $this->load->view('template/footer');
-        } else {
-            $data['message'] = "erreur : Votre session a expiré, veuillez vous reconnecter";
-            $this->load->view('errors/erreur_formulaire', $data);
-            $this->load->view('organisateur/connexion');
-        }
-    }
-
-    public function supprimer_benevole($idE, $idB) {
-        $idLogged = $this->CookieOrgaModel->isLoggedIn();
-        if ((isset($idLogged))) {
-            $this->participer->delete($idE, $idB);
-            $data['message'] = "inscription supprimée";
-            $this->load->view('errors/validation_formulaire', $data);
-            $this->afficher_benevoles($idE);
-        } else {
-            redirect();
-        }
-    }
 
     public function liste_benevoles($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
@@ -330,15 +237,6 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-    public function supprimer_event($idE) {
-        $this->Event->delete($idE);
-        $data['message'] = "événement supprimé";
-        $data['title'] = "mes événements";
-        $this->load->view('errors/validation_formulaire', $data);
-        $this->load->view('template/header', $data);
-        $this->load->view('organisateur/navbarO');
-        $this->load->view('organisateur/mes_events');
-        $this->load->view('template/footer');
-    }
+    
 
 }

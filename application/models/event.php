@@ -19,18 +19,6 @@ class Event extends CI_Model {
                         ->result();
     }
 
-    public function selectAllByDate() {
-
-
-        $date = date('Y/m/d');
-        return $this->db->select('*')
-                        ->from('event')
-                        ->where('dateDebut >', $date)
-                        ->order_by('dateDebut')
-                        ->get()
-                        ->result();
-    }
-
     public function select3ByDate() {
 
         $date = date('Y/m/d');
@@ -118,14 +106,25 @@ class Event extends CI_Model {
                         ->get()
                         ->result();
     }
+    public function selectByIdT($idT) {
 
-    public function selectByType($idT) {
-
-        $this->load->database();
-
+        $date = date('Y/m/d');
         return $this->db->select('*')
                         ->from('event')
                         ->where('idType', $idT)
+                        ->where('dateDebut >', $date)
+                        ->get()
+                        ->result();
+    }
+
+    public function selectByType($idT, $perpage, $offset) {
+
+        $date = date('Y/m/d');
+        return $this->db->select('*')
+                        ->from('event')
+                        ->where('idType', $idT)
+                        ->where('dateDebut >', $date)
+                        ->limit($perpage, $offset)
                         ->get()
                         ->result();
     }
@@ -142,9 +141,22 @@ class Event extends CI_Model {
                         ->result();
     }
 
-    public function count_event() {
-        $this->db->from('event');
-        return $num_rows = $this->db->count_all_results();
+    /* public function count_event() {
+      $this->db->from('event');
+      return $num_rows = $this->db->count_all_results();
+      } */
+
+    function ordo_event($perpage, $offset) {
+        // return $this->db->get("event",$perpage,$offset)->result();
+        $date = date('Y/m/d');
+
+        return $this->db->select('*')
+                        ->from('event')
+                        ->where('dateDebut >', $date)
+                        ->order_by('dateDebut')
+                        ->limit($perpage, $offset)
+                        ->get()
+                        ->result();
     }
 
 }

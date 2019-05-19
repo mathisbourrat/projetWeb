@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container fluid">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,24 +29,28 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Participer<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url("index.php/BenevoleCtrl/liste_participation"); ?>">Mes Participations</a></li>
-                            <li role="separator" class="divider"></li>
+                            
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evenement<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evenement <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Par catégorie</a></li>
+                            <?php foreach ($typeEvent as $item) { ?>
+                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/AccueilCtrl/categorie_event/" . $item->idType); ?>"><?php echo $item->descriptionType; ?></a></li>
+                            
+                    <?php } ?>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/benevoleCtrl/liste_prochains_events"); ?>">Par date</a></li>
+                            <li><a href="<?php echo base_url("index.php/AccueilCtrl/next_events/"); ?>">Par date</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-left">
+                <form action="<?php echo base_url("index.php/AccueilCtrl/search_event"); ?>" method="post" class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" name="title" class="form-control" placeholder="Search">
+                        <input type="submit" name="submit value=" value="search"> 
                     </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
                 </form>
 
             </div><!-- /.navbar-collapse -->

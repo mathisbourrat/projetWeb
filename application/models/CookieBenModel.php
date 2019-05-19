@@ -12,7 +12,7 @@ class CookieBenModel extends CI_Model
     }
     public function isLoggedIn()
     {
-        $cookie = $this->input->cookie('LoginToken');
+        $cookie = $this->input->cookie('LoginTokenBen');
         $data = json_decode($cookie, true);
         
         if (isset($cookie)) {
@@ -32,7 +32,7 @@ class CookieBenModel extends CI_Model
     }
     public function deleteCookie()
     {
-        $cookie = $this->input->cookie('LoginToken');
+        $cookie = $this->input->cookie('LoginTokenBen');
         $data = json_decode($cookie, true);
         if (isset($cookie)) {
             $token = $data['token'];
@@ -41,7 +41,7 @@ class CookieBenModel extends CI_Model
             $result = $query->result_array();
             foreach ($result as $t) {
                 if (password_verify($token, $t['token'])) {
-                    delete_cookie('LoginToken');
+                    delete_cookie('LoginTokenBen');
                     $this->db->delete('usertokens', array('token' => $t['token']));
                 }
             }

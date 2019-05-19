@@ -8,7 +8,8 @@
                         <th scope="col">Evenement</th>
                         <th scope="col">Date</th>
                         <th scope="col">Lieu</th>
-                        <th scope="col">s'engager</th>
+                        <th scope="col">Afficher</th>
+                        <th scope="col">annuler</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,11 +18,17 @@
                             <td><?php echo $item->nomEvent; ?></td>
                             <td><?php echo $item->dateDebut; ?></td>
                             <td><?php echo $item->lieu; ?></td>
-                            <td><p><a href="<?php echo base_url("index.php/BenevoleCtrl/participer/" . $item->idEvent); ?>">Participer</a></p></td>
-                        </tr>
+                            
+                            <td><a href="<?php echo base_url("index.php/AccueilCtrl/event" . $item->idEvent); ?>" class="btn btn-info" role="button">Voir</a>
+                        
+                            <td><a href="<?php echo base_url("index.php/EventCtrl/supprimer_benevole/" . $item->idEvent . "/" . $idBen); ?>" class="btn btn-danger" role="button"
+                                   onclick="confirm('la suppression neut être annulée après confirmation')">annuler</a>
+                        
+                    </tr>
                     <?php } ?>
                 </tbody>
             </table>
+            
         </div>
     </div>
 </div>

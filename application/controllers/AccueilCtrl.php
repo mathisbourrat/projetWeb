@@ -67,41 +67,107 @@ class AccueilCtrl extends CI_Controller {
         $data['title'] = "inscription Organisateur";
         $this->load->view('template/header', $data);
         $data['typeEvent'] = $this->Typeevent->selectAll();
-        $this->load->view('template/navbar', $data);
+        if (isset($idlogged)) {
+                $this->load->view("benevole/navbarB", $data);
+            } else {
+                $idlogged = $this->CookieOrgaModel->isLoggedIn();
+                if (isset($idlogged)) {
+                    $this->load->view("organisateur/navbarO", $data);
+                } else {
+                    $this->load->view("template/navbar", $data);
+                }
+            }
         $this->load->view('organisateur/inscription');
         $this->load->view('template/footer');
     }
 
-    public function liste_prochain_event() {
-        $this->load->library('pagination');
-        $this->load->library('table');
-        
+    
+    public function next_events($offset=0){
+        $data_ev=$this->db->get('event');
         $data['typeEvent'] = $this->Typeevent->selectAll();
-        $this->db->select('nomEvent, dateDebut, dateFin, lieu');
-        $data['base_url'] = base_url('index.php/AccueilCtrl/liste_prochain_event');
-        $data['total_rows'] = $this->db->get('event')->num_rows();
-        $data['per_page'] = 5;
-        $data['num_links'] = 3;
-        //$data['full_tag_open']='<div class="pagination">';
-        //$data['full_tag_close']='</div>';
-        $data['records'] = $this->db->select('nomEvent, dateDebut, dateFin, lieu')
-                ->get('event',$data['per_page'],$this->uri->segment(3));
-       
-        $this->pagination->initialize($data);
-
-        $data['title'] = 'Prochains événements';
-        $this->load->view('template/header', $data);
-        $this->load->view('template/navbar', $data);
-        $this->load->view('test', $data);
-        $this->load->view('template/footer');
+        $config['total_rows']=$data_ev->num_rows();
+        $config['base_url']=base_url("index.php/AccueilCtrl/next_events");
+        $config['per_page']=8;
+        //configuration class bootstrap
+        $config['full_tag_open']="<ul class='pagination pagination-sm' >";
+        $config['full_tag_close']="</ul>";
+        $config['num_tag_open']="<li>";
+        $config['num_tag_close']="</li>";
+        $config['cur_tag_open']="<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close']="<span class='sr-only'></span></a></li>";
+        $config['next_tag_open']="<li>";
+        $config['next_tag_close']="</li>";
+        $config['prev_tag_open']="<li>";
+        $config['prev_tag_close']="</li>";
+        $config['first_tag_open']="<li>";
+        $config['first_tag_close']="</li>";
+        $config['last_tag_open']="<li>";
+        $config['last_tag_close']="</li>";
+        
+        $this->pagination->initialize($config);
+        $data['halaman']=$this->pagination->create_links();
+        $data['offset']=$offset;
+        
+        $data['data']=$this->Event->ordo_event($config['per_page'], $offset);
+        $data['title']="événements par date";
+        $this->load->view('template/header',$data);
+        $idlogged = $this->CookieBenModel->isLoggedIn();
+            if (isset($idlogged)) {
+                $this->load->view("benevole/navbarB", $data);
+            } else {
+                $idlogged = $this->CookieOrgaModel->isLoggedIn();
+                if (isset($idlogged)) {
+                    $this->load->view("organisateur/navbarO", $data);
+                } else {
+                    $this->load->view("template/navbar", $data);
+                }
+            }
+        $this->load->view('next_events',$data);
+        $this->load->view('template/footer');    
     }
 
-    public function liste_type_event($idT) {
+    public function categorie_event($idT,$offset=0) {
+        
+        $data_ev=$this->db->get('event');
+        $data['typeEvent'] = $this->Typeevent->selectAll();
+        $config['total_rows']=$data_ev->num_rows();
+        $config['base_url']=base_url("index.php/AccueilCtrl/categorie_event");
+        $config['per_page']=8;
+        //configuration class bootstrap
+        $config['full_tag_open']="<ul class='pagination pagination-sm' >";
+        $config['full_tag_close']="</ul>";
+        $config['num_tag_open']="<li>";
+        $config['num_tag_close']="</li>";
+        $config['cur_tag_open']="<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close']="<span class='sr-only'></span></a></li>";
+        $config['next_tag_open']="<li>";
+        $config['next_tag_close']="</li>";
+        $config['prev_tag_open']="<li>";
+        $config['prev_tag_close']="</li>";
+        $config['first_tag_open']="<li>";
+        $config['first_tag_close']="</li>";
+        $config['last_tag_open']="<li>";
+        $config['last_tag_close']="</li>";
+        
+        $this->pagination->initialize($config);
+        $data['halaman']=$this->pagination->create_links();
+        $data['offset']=$offset;
+        $data['cat']=$idT;
+        
+        $data['data']=$this->Event->selectByType($idT,$config['per_page'], $offset);
         $data['title'] = 'Voici les événements correspondant à votre recherche';
         $this->load->view('template/header', $data);
-        $data['typeEvent'] = $this->Typeevent->selectAll();
-        $this->load->view('template/navbar', $data);
-        $data['event'] = $this->Event->selectByType($idT);
+        $idlogged = $this->CookieBenModel->isLoggedIn();
+            if (isset($idlogged)) {
+                $this->load->view("benevole/navbarB", $data);
+            } else {
+                $idlogged = $this->CookieOrgaModel->isLoggedIn();
+                if (isset($idlogged)) {
+                    $this->load->view("organisateur/navbarO", $data);
+                } else {
+                    $this->load->view("template/navbar", $data);
+                }
+            }
         $this->load->view('liste_event', $data);
         $this->load->view('template/footer');
     }
@@ -110,29 +176,45 @@ class AccueilCtrl extends CI_Controller {
         $name = $this->input->post('title');
         $data['event'] = $this->Event->search($name);
         $data['title'] = "résultat";
+        $data['name']=$name;
         $this->load->view('template/header', $data);
         $data['typeEvent'] = $this->Typeevent->selectAll();
-        $this->load->view('template/navbar', $data);
-
-        $this->load->view('liste_event', $data);
+        $idlogged = $this->CookieBenModel->isLoggedIn();
+        if (isset($idlogged)) {
+            $this->load->view("benevole/navbarB", $data);
+        } else {
+            $this->load->view('template/navbar', $data);
+        }
+        $this->load->view('research', $data);
         $this->load->view('template/footer');
     }
+    
 
-    public function afficher_event($id) {
+    public function event($id) {
         $this->load->helper('form', 'url');
         $this->load->library('form_validation');
         if ($this->Event->selectById($id) != Null) {
             $data['event'] = $this->Event->selectById($id);
+            $idOrga=$data['event'][0]->idOrga;
+            $data['organisateur']=$this->Organisateur->selectById($idOrga);
             $data['title'] = "event";
             $this->load->view('template/header', $data);
             $data['typeEvent'] = $this->Typeevent->selectAll();
-            $this->load->view('template/navbar', $data);
-            $this->load->view('affichage_event', $data);
+            $idlogged = $this->CookieBenModel->isLoggedIn();
+            if (isset($idlogged)) {
+                $this->load->view("benevole/navbarB", $data);
+            } else {
+                $idlogged = $this->CookieOrgaModel->isLoggedIn();
+                if (isset($idlogged)) {
+                    $this->load->view("organisateur/navbarO", $data);
+                } else {
+                    $this->load->view("template/navbar", $data);
+                }
+            }
+            $this->load->view('event', $data);
             $this->load->view('template/footer');
-        } else {
-            //ereur le produit n'existe pas
-            $this->liste_prochain_event();
-        }
+        } else
+            redirect();
     }
 
 }

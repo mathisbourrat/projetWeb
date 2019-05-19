@@ -39,11 +39,11 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Par catégorie</a></li>
                             <?php foreach ($typeEvent as $item) { ?>
-                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/AccueilCtrl/liste_type_event/" . $item->idType); ?>"><?php echo $item->descriptionType; ?></a></li>
+                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/AccueilCtrl/categorie_event/" . $item->idType . "/"); ?>"><?php echo $item->descriptionType; ?></a></li>
                             
                     <?php } ?>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/AccueilCtrl/liste_prochain_event"); ?>">Par date</a></li>
+                            <li><a href="<?php echo base_url("index.php/AccueilCtrl/next_events"); ?>">Par date</a></li>
                         </ul>
                     </li>
                     

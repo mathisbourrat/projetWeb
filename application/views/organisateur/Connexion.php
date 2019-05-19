@@ -20,10 +20,10 @@
                             <a href="<?php echo base_url("index.php/AccueilCtrl/inscription_organisateur");?>" class="ForgetPwd">Rejoins nous!</a>
                         </div>
                     
-			
+                        
                     <?php echo form_close(); ?>
                 </div>
                     </div>
             
                 </div>
- </div>
+ </

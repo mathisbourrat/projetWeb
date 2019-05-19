@@ -14,7 +14,7 @@
 
                 <br>
                 <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-                <?php echo form_open('OrganisateurCtrl/modifier_event/' . $event[0]->idEvent); ?>
+                <?php echo form_open('EventCtrl/update_event/' . $event[0]->idEvent); ?>
 
                 <div class="form-group">
                     <label class="control-label">Nom</label>
@@ -60,7 +60,7 @@
 
 
                 <div>
-                    <a href="<?php echo base_url("index.php/OrganisateurCtrl/supprimer_event/" . $event[0]->idEvent); ?>" class="btn btn-primary btn-danger btn-block" 
+                    <a href="<?php echo base_url("index.php/EventCtrl/supprimer_event/" . $event[0]->idEvent); ?>" class="btn btn-primary btn-danger btn-block" 
                                                 onclick="return confirm('la suppression ne peut être annulée après cette page')">Supprimer</a>
                     </div>              
                 

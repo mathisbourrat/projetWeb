@@ -10,7 +10,7 @@
                         <th scope="col">Prénom</th>
                         <th scope="col">Mail</th>
                         <th scope="col">Numéro de telephone</th>
-                        <th scope="col">Voir plus</th>
+                     
                         <th scope="col">supprimer</th>
                     </tr>
                 </thead>
@@ -21,8 +21,8 @@
                             <td><?php echo $item->prenomBen; ?></td>
                             <td><?php echo $item->mailBen; ?></td>
                             <td><?php echo $item->telBen; ?></td>
-                            <td><a href="<?php echo base_url("index.php/OrganisateurCtrl/profil_ben/" . $item->idEvent); ?>"class="btn btn-default" role="button">Profil</a></p></td>
-                            <td><a href="<?php echo base_url("index.php/OrganisateurCtrl/supprimer_benevole/" . $item->idEvent); ?>" class="btn btn-danger" role="button"
+                         
+                            <td><a href="<?php echo base_url("index.php/EventCtrl/supprimer_benevole/" . $item->idEvent . "/" . $item->idBen); ?>" class="btn btn-danger" role="button"
                                    onclick="return confirm('la suppression neut être annulée après confirmation')">supprimer</a></td>
                     </tr>
                     <?php } ?>

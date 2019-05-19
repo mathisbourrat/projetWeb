@@ -5,20 +5,18 @@
 <!--Pulling Awesome Font -->
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-3 col-md-5">
-            <div class="form-login" >
                 
 
 
                 <h1>Votre Profil</h1>
 
-                
+
                 <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                 <?php echo form_open('OrganisateurCtrl/modifier_profil'); ?>
                 <div class="form-group">
                     <label class="control-label">Nom</label>
                     <input type="text" class="form-control" name="nomOrga" value="<?php echo $organisateur[0]->nomOrga; ?>" size="30" required/> 
-                    
+
                 </div>
 
                 <div class="form-group">
@@ -49,10 +47,14 @@
                 </div>    
 
 
-                <br>
-                <div class="text-center"><input class="btn btn-primary btn-success btn-block" type="submit" value="Modifier" /></div>
-
                 
+                <div class="text-center"><input class="btn btn-primary btn-success btn-block" type="submit" value="Modifier" /></div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 text-center">
+            <div class="my-form">
+            <div class='my-update'>
                 <h3>Changement de mot de passe</h3>
 
                 <div class="form-group">
@@ -64,9 +66,9 @@
                     <label class="control-label">Confirmation</label>
                     <input type="password" class="form-control" name="mdp2Orga" value="" minlength="8" size="30" >
                 </div>
-                
+
                 <div class="form-group">
-                        <input type="checkbox" name="change_psw" value="1"> je confirme vouloir changer mon mot de passe<br>                               
+                    <input type="checkbox" name="change_psw" value="1"> je confirme vouloir changer mon mot de passe<br>                               
                 </div>
 
                 <br>
@@ -75,16 +77,8 @@
 
 
             </div>
-
-
-
-
-            <br>
-
-
-            <br>
-
         </div>
     </div>
+</div>
 </div>
 
