@@ -10,7 +10,11 @@ class Event extends CI_Model {
 
     public function selectAll() {
 
+        
 
+        
+        
+        
         $this->load->database();
 
         return $this->db->select('*')
@@ -141,10 +145,7 @@ class Event extends CI_Model {
                         ->result();
     }
 
-    /* public function count_event() {
-      $this->db->from('event');
-      return $num_rows = $this->db->count_all_results();
-      } */
+
 
     function ordo_event($perpage, $offset) {
         // return $this->db->get("event",$perpage,$offset)->result();

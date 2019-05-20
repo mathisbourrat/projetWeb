@@ -11,7 +11,7 @@
     <div class="row">
         
         <div class="col-md-6 col-md-offset-3 login-form-3 text-center">
-            <?php echo form_open('BenevoleCtrl/inscription'); ?>
+            <?php echo form_open('Benevoles/inscription'); ?>
 
                 
                     <div class="text-center">

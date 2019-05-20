@@ -22,7 +22,7 @@
                             <td><?php echo $item->mailBen; ?></td>
                             <td><?php echo $item->telBen; ?></td>
                          
-                            <td><a href="<?php echo base_url("index.php/EventCtrl/supprimer_benevole/" . $item->idEvent . "/" . $item->idBen); ?>" class="btn btn-danger" role="button"
+                            <td><a href="<?php echo base_url("index.php/Events/supprimer_benevole/" . $item->idEvent . "/" . $item->idBen); ?>" class="btn btn-danger" role="button"
                                    onclick="return confirm('la suppression neut être annulée après confirmation')">supprimer</a></td>
                     </tr>
                     <?php } ?>

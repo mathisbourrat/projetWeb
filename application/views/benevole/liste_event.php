@@ -19,9 +19,9 @@
                             <td><?php echo $item->dateDebut; ?></td>
                             <td><?php echo $item->lieu; ?></td>
                             
-                            <td><a href="<?php echo base_url("index.php/AccueilCtrl/event" . $item->idEvent); ?>" class="btn btn-info" role="button">Voir</a>
+                            <td><a href="<?php echo base_url("index.php/Accueil/event/" . $item->idEvent); ?>" class="btn btn-info" role="button">Voir</a>
                         
-                            <td><a href="<?php echo base_url("index.php/EventCtrl/supprimer_benevole/" . $item->idEvent . "/" . $idBen); ?>" class="btn btn-danger" role="button"
+                            <td><a href="<?php echo base_url("index.php/Events/supprimer_benevole/" . $item->idEvent . "/" . $idBen); ?>" class="btn btn-danger" role="button"
                                    onclick="confirm('la suppression neut être annulée après confirmation')">annuler</a>
                         
                     </tr>

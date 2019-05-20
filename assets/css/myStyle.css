@@ -1,23 +1,295 @@
+
+.btn{
+    margin: 1%;
+}
+.form-login h3{
+    padding-top: 20px;
+    padding-bottom:15px;
+}
+
+html{
+    height:100%;
+}
+
 body{
-    background-color: red;
+    background-color: #E8E8E8;
+
+    background-image: url("../image/background-2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height:100%;
+    width:100%;
+}
+
+.result{
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+    
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 300%;
+
+
+}
+
+h2{
+    text-align: center;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 200%;
+}
+
+col-sm-6 col-md-4{
+    padding:0;
 }
 
 .container{
     width: 100%;
+    
+
 }
 .navbar{
-    background-color: red;
+    border:2px;
+    border-color:white;
+    width: 100%;
+    
+    background-color: #bababa;
+    margin: 0;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+
+}
+.navbar-header{
+    margin: 0px;
 }
 
-thead{
-    background-color: white;
-}
+
 
 a{
     text-decoration: none;
 }
 
-.test1234{
-    border:2px;
-    border-color: lightblue;
+/*class thumbnail*/
+.thumbnail:hover{
+    font-size:110%;
 }
+
+.thumbnail img:hover{
+    font-size:110%;
+}
+
+
+.thumbnail{
+    border-radius: 10px;
+    padding: 0;
+box-shadow: 5px 5px 5px ;
+    width: 100%;
+    height: 500px;
+    border-color: #bbbbbb;
+
+}
+
+.thumbnail img{
+    width: 100%;
+    height: 75%;
+    background-size: cover;
+    border-top-left-radius : 10px;
+    border-top-right-radius : 10px;
+}
+
+.thumbnail .caption{
+    padding: 5%;
+    text-align: center;
+}
+
+.caption{
+    padding: 0;
+    margin: 0;
+}
+
+.caption h3{
+
+    font-family: Impact, Charcoal, sans-serif;
+    margin-bottom: 1%
+}
+
+h3{
+    margin: 0;
+    padding: 0;
+}
+
+.btn-default{
+    display: inline-block; 
+}
+.table-responsive{
+    border-style: solid;
+    border-width:0.5px;
+    border-color: #bbbbbb;
+    text-align: center;
+    width:95%;
+    margin:auto;
+    border-radius: 20px;
+}
+
+th{
+    text-align:center;
+}
+
+
+.my-login{
+    margin: 5%;
+    padding: 10%;
+    background-color: white;
+    border-radius: 2%;
+    box-shadow: 10px 5px 5px ;
+    box-sizing: border-box;
+
+}
+
+.my-login h2{
+    margin-bottom: 10%;
+}
+
+.my-login a{
+    text-decoration: none;
+}
+
+.my-register{
+    margin: 5%;
+    padding: 10%;
+    background-color: white;
+    border-radius: 5%;
+    box-shadow: 10px 5px 5px ;
+    box-sizing: border-box;
+
+}
+
+.my-update{
+    margin: 5%;
+    padding: 10%;
+    background-color: white;
+    border-radius: 5%;
+    box-shadow: 10px 5px 5px ;
+    box-sizing: border-box;
+
+
+}
+
+.table{
+    text-align: center;
+
+}
+
+.row{
+    margin: 0;
+    padding:0;
+}
+
+.table-responsive .table{
+    text-align: center;
+}
+
+@media screen and (min-width: 990px) {
+.my-form {
+ 	 transform: translate(0, 50%);
+}}
+
+
+.alert{
+    width: 100%;
+    margin:auto;
+}
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.carousel{
+    margin: 1%;
+    box-shadow: 5px 5px 5px ;
+}
+
+
+.my-img{
+    box-shadow: 5px 5px 5px ;
+    border-radius: 5%;
+    text-align: center;
+    margin: auto;
+    max-width: 100%;
+}
+
+
+
+.my-result2{
+    transform: translate(0, 30%);
+    
+}
+
+.my-result2 h2{
+    text-align:left;
+   height: 20%;
+}
+
+h4{
+    font-family: Optima, sans-serif;
+    
+
+}
+
+.home-page h2{
+    text-align:left;
+}
+
+.my-result{
+    margin-top: 2%;
+  margin-bottom: 2%;  
+}
+
+.ct3{
+    margin: 0;
+    padding-left: 0;
+}
+
+.modal-content{
+    width:75%;
+}
+
+

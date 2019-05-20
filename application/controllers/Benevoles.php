@@ -1,6 +1,6 @@
 <?php
 
-class BenevoleCtrl extends CI_Controller {
+class Benevoles extends CI_Controller {
 
     public function index() {
         $idLogged = $this->CookieBenModel->isLoggedIn();
@@ -52,6 +52,8 @@ class BenevoleCtrl extends CI_Controller {
                 "adresseBen" => htmlspecialchars($_POST['adresseBen']),
                 "mdpBen" => htmlspecialchars(crypt($_POST['mdpBen'], 'md5')));
             $this->Benevole->insert($data);
+            redirect('Accueil/connexion_benevole');
+            
         } else {
             $data['title'] = "inscription bénévole";
             $this->load->view('template/header', $data);
@@ -130,7 +132,7 @@ class BenevoleCtrl extends CI_Controller {
                         $psw = htmlspecialchars(crypt($_POST['mdpBen'], 'md5'));
                         $this->Organisateur->update_psw($idLogged, $psw);
                     } else {
-                        redirect(BenevoleCtrl / profil);
+                        redirect('Benevoles/profil');
                     }
                 }
             }
@@ -161,22 +163,12 @@ class BenevoleCtrl extends CI_Controller {
         }
     }
 
-    public function liste_prochains_events() {
-
-        $data['event'] = $this->Event->selectAllByDate();
-        $data['title'] = 'Prochains événements';
-        $this->load->view('template/header', $data);
-        $this->load->view('benevole/navbarB');
-        $this->load->view('benevole/liste_event', $data);
-        $this->load->view('template/footer');
-    }
 
     public function participer($idEvent) {
         $idLogged = $this->CookieBenModel->isLoggedIn();
         if ((isset($idLogged))) {
             $this->load->model('participer');
             $participation = $this->participer->selectByKey($idEvent, $idLogged);
-            var_dump($participation);
             if (empty($participation)) {
                 $data = ['idBen' => $idLogged,
                     'idEvent' => $idEvent];
@@ -187,17 +179,29 @@ class BenevoleCtrl extends CI_Controller {
             } else {
                 $data['message'] = "Vous participer déja à cet événement";
                 $this->load->view('errors/erreur_formulaire', $data);
-                $this->liste_prochains_events();
+                redirect('Accueil/next_events');
             }
         } else {
-            $data['message'] = "erreur : session expirée";
-            $this->load->view('errors/erreur_formulaire', $data);
-            $data['title'] = 'connexion';
-            $this->load->view('template/header', $data);
-            $data['typeEvent'] = $this->Typeevent->selectAll();
-            $this->load->view('template/navbar', $data);
-            $this->load->view('benevole/connexion');
-            $this->load->view('template/footer');
+            $idLogged = $this->CookieOrgaModel->isLoggedIn();
+            if ((isset($idLogged))) {
+                $data['message'] = "Vous ne pouvez pas vous inscrire";
+                $this->load->view('errors/erreur_formulaire', $data);
+                $data['title'] = 'connexion';
+                $this->load->view('template/header', $data);
+                $data['typeEvent'] = $this->Typeevent->selectAll();
+                $this->load->view('organisateur/navbarO', $data);
+                $this->load->view('organisateur/accueil');
+                $this->load->view('template/footer');
+            } else {
+                $data['message'] = "erreur : session expirée";
+                $this->load->view('errors/erreur_formulaire', $data);
+                $data['title'] = 'connexion';
+                $this->load->view('template/header', $data);
+                $data['typeEvent'] = $this->Typeevent->selectAll();
+                $this->load->view('template/navbar', $data);
+                $this->load->view('benevole/connexion');
+                $this->load->view('template/footer');
+            }
         }
     }
 

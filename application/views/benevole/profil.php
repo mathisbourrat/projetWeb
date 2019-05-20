@@ -10,7 +10,7 @@
         <div class="col-md-6 text-center">
             <div class='my-update'>
                         <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-                        <?php echo form_open('BenevoleCtrl/modifier'); ?>
+                        <?php echo form_open('Benevoles/modifier'); ?>
                         <div class="form-group">
                             <label class="control-label">Nom</label>
                             <input type="text" class="form-control" name="nomBen" value="<?php echo $benevole[0]->nomBen; ?>" size="30" required/> 
@@ -39,7 +39,7 @@
                         </div>    
                         <div class="form-group">
                             <label class="control-label">Numéro de téléphone</label>
-                            <input type="text" class="form-control" name="telBen" value="<?php echo $benevole[0]->telBen; ?>" size="30" required>
+                            <input type="text" class="form-control" name="telBen" value="0<?php echo $benevole[0]->telBen; ?>" size="30" required>
                         </div>    
 
 

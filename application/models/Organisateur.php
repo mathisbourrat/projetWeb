@@ -49,7 +49,7 @@ class Organisateur extends CI_Model {
                 ->set('telOrga', $data['telOrga'])
                 ->set('codePOrga', $data['codePOrga'])
                 ->set('villeOrga', $data['villeOrga'])
-                ->set('adresseOrga', $data['telOrga'])
+                ->set('adresseOrga', $data['adresseOrga'])
                 ->set('mdpOrga', $data['mdpOrga'])
                 ->insert($this->table);
     }
@@ -63,7 +63,7 @@ class Organisateur extends CI_Model {
                 ->set('telOrga', $data['telOrga'])
                 ->set('codePOrga', $data['codePOrga'])
                 ->set('villeOrga', $data['villeOrga'])
-                ->set('adresseOrga', $data['telOrga'])
+                ->set('adresseOrga', $data['adresseOrga'])
                 ->where('idOrga', $id)
 		->update($this->table); 
 	}

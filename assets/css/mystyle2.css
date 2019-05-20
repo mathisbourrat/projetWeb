@@ -28,16 +28,17 @@ body{
 
 h1{
     text-align: center;
-    font-family: fantasy;
-    font-size: 500%;
+    
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 300%;
 
 
 }
 
 h2{
     text-align: center;
-    font-family: fantasy;
-    font-size: 300%;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 200%;
 }
 
 col-sm-6 col-md-4{
@@ -51,11 +52,13 @@ col-sm-6 col-md-4{
 }
 .navbar{
     border:2px;
-    border-color:#DAB894;
+    border-color:white;
     width: 100%;
-    background-color: #DAB894;
+    
+    background-color: #bababa;
     margin: 0;
-    border-radius: 0;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
 
 }
 .navbar-header{
@@ -108,7 +111,8 @@ box-shadow: 5px 5px 5px ;
 }
 
 .caption h3{
-    font-family: fantasy;
+
+    font-family: Impact, Charcoal, sans-serif;
     margin-bottom: 1%
 }
 
@@ -195,7 +199,7 @@ th{
 
 
 .alert{
-    width: 90%;
+    width: 100%;
     margin:auto;
 }
 
@@ -250,17 +254,13 @@ th{
     border-radius: 5%;
     text-align: center;
     margin: auto;
-
+    max-width: 100%;
 }
 
-.my-result{
-    margin-top: 2%;
-    border-style: solid;
-    border-color: black;
-}
+
 
 .my-result2{
-    transform: translate(0, 50%);
+    transform: translate(0, 30%);
     
 }
 
@@ -268,8 +268,27 @@ th{
     text-align:left;
    height: 20%;
 }
-.my-result2 h3{
-   
+
+h4{
+    font-family: Optima, sans-serif;
+    
+
 }
+
+.home-page h2{
+    text-align:left;
+}
+
+.my-result{
+    margin-top: 2%;
+  margin-bottom: 2%;  
+}
+
+.ct3{
+    margin: 0;
+    padding-left: 0;
+}
+
+
 
 

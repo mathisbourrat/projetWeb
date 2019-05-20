@@ -5,7 +5,7 @@
                     
                     <h2>Connexion à mon espace organisateur</h2>
                     <div class="my-login">
-                    <?php echo form_open('OrganisateurCtrl/connexion', array('method'=>'post'));?>
+                    <?php echo form_open('Organisateurs/connexion', array('method'=>'post'));?>
                     <?php echo isset($error) ? $error : '';?>
                         <div class="form-group">
                             <input type="email" class="form-control" name="mailOrga" placeholder="Votre adresse email" value="" size="50" required /> 
@@ -17,7 +17,7 @@
                             <input type="submit" class="btnSubmit btn-success btn-default" value="Se connecter" />
                         </div>
                         <div class="form-group">
-                            <a href="<?php echo base_url("index.php/AccueilCtrl/inscription_organisateur");?>" class="ForgetPwd">Rejoins nous!</a>
+                            <a href="<?php echo base_url("index.php/Accueil/inscription_organisateur");?>" class="ForgetPwd">Rejoins nous!</a>
                         </div>
                     
                         
@@ -26,4 +26,4 @@
                     </div>
             
                 </div>
- </
+</div>

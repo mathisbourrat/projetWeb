@@ -69,16 +69,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
-*/
+51.254.214.203  */
 $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'mathis1234',
-	'database' => 'bdpw',
+	'hostname' => '51.254.214.203',
+	'username' => 'mathisb',
+	'password' => 'mathis12345',
+	'database' => 'mathis1234',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

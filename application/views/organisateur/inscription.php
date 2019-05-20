@@ -12,7 +12,7 @@
         <div class="col-md-6 col-md-offset-3 login-form-3 text-center">
 
                     <!-- renvoie tous les messages d'erreur, une chaine vide sinon -->
-            <?php echo form_open('OrganisateurCtrl/inscription'); ?>
+            <?php echo form_open('Organisateurs/inscription'); ?>
 
                 <br>
                 

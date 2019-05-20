@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="result"><h1>Catégorie </h1></div>
+    <div class="result"><h1>Résultats Catégorie </h1></div>
     <div class="row">
         
         <?php
@@ -11,8 +11,8 @@
       <div class="caption">
         <h3><?php echo $item->nomEvent; ?></h3>
         <p><?php echo $item->dateDebut; ?></p>
-        <p><a href="<?php echo base_url("index.php/AccueilCtrl/afficher_event/" . $item->idEvent); ?>" class="btn btn-primary" role="button">voir</a> 
-            <a href="<?php echo base_url("index.php/BenevoleCtrl/participer/" . $item->idEvent); ?>" class="btn btn-default" role="button">participer</a></p>
+        <a href="<?php echo base_url("index.php/Accueil/event/" . $item->idEvent); ?>" ><button class="btn btn-info">Plus d’informations</button></a>
+        <a href="<?php echo base_url("index.php/Benevoles/participer/" . $item->idEvent); ?>" ><button class="btn btn-primary">Participer</button></a>
       </div>
     </div>
   </div>

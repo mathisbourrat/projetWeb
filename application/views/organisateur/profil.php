@@ -10,9 +10,11 @@
 
                 <h1>Votre Profil</h1>
 
+        <div class="col-md-6 text-center">
+            <div class='my-update'>
 
                 <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-                <?php echo form_open('OrganisateurCtrl/modifier_profil'); ?>
+                <?php echo form_open('Organisateurs/modifier_profil'); ?>
                 <div class="form-group">
                     <label class="control-label">Nom</label>
                     <input type="text" class="form-control" name="nomOrga" value="<?php echo $organisateur[0]->nomOrga; ?>" size="30" required/> 
@@ -21,7 +23,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Prenom</label>
-                    <input type="text" class="form-control" name="prenomOrga" value=" <?php echo $organisateur[0]->prenomOrga; ?>" size="30" required/>
+                    <input type="text" class="form-control" name="prenomOrga" value="<?php echo $organisateur[0]->prenomOrga; ?>" size="30" required/>
                 </div>    
                 <div class="form-group">
                     <label class="control-label">Mail</label>
@@ -43,7 +45,7 @@
                 </div>    
                 <div class="form-group">
                     <label class="control-label">Numéro de téléphone</label>
-                    <input type="tel" class="form-control" name="telOrga" value="<?php echo $organisateur[0]->telOrga; ?>" pattern="0[0-9]{9}" required>
+                    <input type="tel" class="form-control" name="telOrga" value="0<?php echo $organisateur[0]->telOrga; ?>" pattern="0[0-9]{9}" required>
                 </div>    
 
 

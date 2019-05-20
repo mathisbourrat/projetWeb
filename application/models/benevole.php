@@ -1,12 +1,13 @@
 <?php
 
-class Benevole extends CI_Model {
+class Benevole extends CI_Model{
 
     protected $table = 'benevole';
 
     public function __construct() {
         parent::__construct();
     }
+    
 
     public function selectAll() {
 

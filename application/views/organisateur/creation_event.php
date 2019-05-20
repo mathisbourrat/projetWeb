@@ -10,7 +10,7 @@
 <div class="container login-container2" align="left">
     <div class="row">
 
-        <?php echo form_open_multipart('EventCtrl/create_event'); ?>
+        <?php echo form_open_multipart('Events/create_event'); ?>
 
 
 

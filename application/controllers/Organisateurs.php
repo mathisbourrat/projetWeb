@@ -1,6 +1,6 @@
 <?php
 
-class OrganisateurCtrl extends CI_Controller {
+class Organisateurs extends CI_Controller {
 
     public function index() {
 
@@ -41,10 +41,21 @@ class OrganisateurCtrl extends CI_Controller {
             $this->Organisateur->insert($data);
             $data['message'] = "inscription réussite";
             $this->load->view('errors/validation_formulaire', $data);
-            $this->load->view('home');
+            $data['title'] = "connexion organisateur";
+            $this->load->view('template/header', $data);
+            $data['typeEvent'] = $this->Typeevent->selectAll();
+            $this->load->view('template/navbar', $data);
+            $this->load->view('organisateur/connexion');
+            $this->load->view('template/footer');
         } else {
-            echo "erreur : la confirmation de Mot de passe ne correspond pas au premier";
+            $data['message'] = "les mots de passe ne sont pas identiques";
+            $this->load->view('errors/erreur_formulaire', $data);
+            $data['title'] = "inscription organisateur";
+            $this->load->view('template/header', $data);
+            $data['typeEvent'] = $this->Typeevent->selectAll();
+            $this->load->view('template/navbar', $data);
             $this->load->view('organisateur/inscription');
+            $this->load->view('template/footer');
         }
     }
 
@@ -65,7 +76,8 @@ class OrganisateurCtrl extends CI_Controller {
 
                 $idOrga = $organisateur[0]->idOrga;
                 if (!password_verify($_POST['mdpOrga'], $organisateur[0]->mdpOrga)) {
-                    echo "erreur : mauvais mot de passe";
+                    $data['message'] = "mauvais mot de passe";
+                    $this->load->view('errors/erreur_formulaire', $data);
                     $data['title'] = "connexion";
                     $this->load->view('template/header', $data);
                     $data['typeEvent'] = $this->Typeevent->selectAll();
@@ -128,15 +140,13 @@ class OrganisateurCtrl extends CI_Controller {
                 $this->load->view('errors/erreur_formulaire', $data);
                 $this->index();
             } else
-                   
+
             if (isset($_POST['change_psw'])) {
                 if ($_POST['mdpOrga'] == $_POST['mdp2Orga']) {
-                    $psw = htmlspecialchars(crypt($_POST['mdp2Orga'],'md5'));
-                    $this->Organisateur->update_psw($idLogged,$psw);
-                }
-                else{
-                    echo "mots de passe different";
-                    
+                    $psw = htmlspecialchars(crypt($_POST['mdp2Orga'], 'md5'));
+                    $this->Organisateur->update_psw($idLogged, $psw);
+                } else {
+                    redirect('Organisateurs/profil');
                 }
             }
 
@@ -223,7 +233,6 @@ class OrganisateurCtrl extends CI_Controller {
         }
     }
 
-
     public function liste_benevoles($idE) {
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))) {
@@ -234,9 +243,9 @@ class OrganisateurCtrl extends CI_Controller {
             $this->load->view('organisateur/navbarO');
             $this->load->view('organisateur/liste_benevoles', $data);
             $this->load->view('template/footer');
+        } else {
+            redirect();
         }
     }
-
-    
 
 }

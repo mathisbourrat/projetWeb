@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url("index.php/BenevoleCtrl/index"); ?>">Accueil</a>
+                <a class="navbar-brand" href="<?php echo base_url("index.php/Benevoles/index"); ?>">Accueil</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -19,16 +19,16 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url("index.php/BenevoleCtrl/profil"); ?>">Infos sur mon compte</a></li>
+                            <li><a href="<?php echo base_url("index.php/Benevoles/profil"); ?>">Infos sur mon compte</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/BenevoleCtrl/deconnexion"); ?>">Se déconnecter</a></li>
+                            <li><a href="<?php echo base_url("index.php/Benevoles/deconnexion"); ?>">Se déconnecter</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Participer<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url("index.php/BenevoleCtrl/liste_participation"); ?>">Mes Participations</a></li>
+                            <li><a href="<?php echo base_url("index.php/Benevoles/liste_participation"); ?>">Mes Participations</a></li>
                             
                         </ul>
                     </li>
@@ -38,15 +38,15 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Par catégorie</a></li>
                             <?php foreach ($typeEvent as $item) { ?>
-                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/AccueilCtrl/categorie_event/" . $item->idType); ?>"><?php echo $item->descriptionType; ?></a></li>
+                            <li><a style='margin-left:5%' href="<?php echo base_url("index.php/Accueil/categorie_event/" . $item->idType); ?>"><?php echo $item->descriptionType; ?></a></li>
                             
                     <?php } ?>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo base_url("index.php/AccueilCtrl/next_events/"); ?>">Par date</a></li>
+                            <li><a href="<?php echo base_url("index.php/Accueil/next_events/"); ?>">Par date</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form action="<?php echo base_url("index.php/AccueilCtrl/search_event"); ?>" method="post" class="navbar-form navbar-left">
+                <form action="<?php echo base_url("index.php/Accueil/search_event"); ?>" method="post" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input type="text" name="title" class="form-control" placeholder="Search">
                         <input type="submit" name="submit value=" value="search"> 

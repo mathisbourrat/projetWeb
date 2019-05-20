@@ -18,13 +18,14 @@ class Participer extends CI_Model {
                         ->result();
     }
 
-    public function selectByIdEvent($id) {
+    public function selectByIdEvent($idE,$per_page,$offset) {
 
         $this->load->database();
 
         return $this->db->select('*')
                         ->from('participer')
-                        ->where('idEvent', $id)
+                        ->where('idEvent', $idE)
+                ->limit($per_page,$offset)
                         ->get()
                         ->result();
     }
@@ -69,6 +70,7 @@ class Participer extends CI_Model {
                     ->delete($this->table);
             
     	}
+      
         
     public function selectParticipant($idE){
         $this->load->database();

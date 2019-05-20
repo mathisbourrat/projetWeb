@@ -1,6 +1,6 @@
 <?php
 
-class EventCtrl extends CI_Controller {
+class Events extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -12,13 +12,13 @@ class EventCtrl extends CI_Controller {
         
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
         if ((isset($idLogged))) {
-            redirect('OrganisateurCtrl/index');
+            redirect('Organisateurs/index');
         } 
         else
         $idLogged = $this->CookieOrgaModel->isLoggedIn();
 
         if ((isset($idLogged))) {
-            redirect('BenevoleCtrl/index');
+            redirect('Benevoles/index');
         }
         redirect();
     }
@@ -44,10 +44,9 @@ class EventCtrl extends CI_Controller {
                 log_message('error', $this->upload->display_errors());
                 $data['message'] = "erreur : la photo n'a pas pu s'importer";
                 $this->load->view('errors/erreur_formulaire', $data);
-                redirect('OrganisateurCtrl/mes_events');
+                redirect('Organisateurs/mes_events');
             } else {
                 $file_data = $this->upload->data();
-                var_dump($file_data);
                 $data = array(
                     'nomEvent' => htmlspecialchars($_POST['nomEvent']),
                     "dateDebut" => htmlspecialchars($_POST['dateDebut']),
@@ -62,7 +61,7 @@ class EventCtrl extends CI_Controller {
                 $this->Event->insert($data);
                 $data['message'] = "Nouvel événements créé!";
                 $this->load->view('errors/validation_formulaire', $data);
-                redirect('OrganisateurCtrl/mes_events');
+                redirect('Organisateurs/mes_events');
             }
         } else {
             $data['message'] = "session expirée";
@@ -78,7 +77,7 @@ class EventCtrl extends CI_Controller {
     
     public function supprimer_event($idE) {
         $this->Event->delete($idE);
-        redirect('OrganisateurCtrl/mes_events');
+        redirect('Organisateurs/mes_events');
     }
     
     public function update_event($idE) {
@@ -94,7 +93,7 @@ class EventCtrl extends CI_Controller {
             );
 
             $this->Event->update($idE, $data);
-            redirect('OrganisateurCtrl/mes_events');
+            redirect('Organisateurs/mes_events');
         } else {
             redirect();
         }
